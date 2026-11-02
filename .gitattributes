@@ -1,0 +1,6 @@
+# Mantener los archivos de texto de Godot con saltos de línea consistentes.
+* text=auto
+*.gd text eol=lf
+*.tscn text eol=lf
+*.tres text eol=lf
+*.godot text eol=lf

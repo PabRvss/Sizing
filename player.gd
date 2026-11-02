@@ -1,0 +1,202 @@
+extends CharacterBody3D
+
+@export var velocidad = 5.5
+@export var fuerza_salto = 6.3
+@export var gravedad = 17.0
+@export var lava_kill_y = -0.5
+
+@onready var colision = $Colision
+@onready var malla = $Malla
+@onready var rayo = $Rayo
+@onready var raycast_techo = $RayCastTecho
+@onready var warning_label = $HUD/WarningLabel
+
+var player_size = 1.0
+var ya_intercambio = false
+var cajas_iniciales = {}
+var tiempo_aviso = 0.0
+
+func _ready():
+	warning_label.text = ""
+	for caja in get_tree().get_nodes_in_group("swappable"):
+		var s = float(caja.get_meta("size", 1.0))
+		cajas_iniciales[caja] = {"pos": caja.position, "tam": s}
+		caja.set_meta("base_y", caja.position.y - (1.25 * s) / 2.0)
+
+func _physics_process(delta):
+	if global_position.y < lava_kill_y:
+		get_tree().reload_current_scene()
+		return
+
+	var cam = get_viewport().get_camera_3d()
+	var adelante = Vector3.FORWARD
+	var derecha = Vector3.RIGHT
+	if cam:
+		adelante = -cam.global_transform.basis.z
+		adelante.y = 0
+		adelante = adelante.normalized()
+		derecha = cam.global_transform.basis.x
+		derecha.y = 0
+		derecha = derecha.normalized()
+
+	var input = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var direccion = (derecha * input.x + adelante * -input.y).normalized()
+
+	var vel_actual = velocidad * sqrt(player_size)
+	if direccion != Vector3.ZERO:
+		velocity.x = move_toward(velocity.x, direccion.x * vel_actual, 30.0 * delta)
+		velocity.z = move_toward(velocity.z, direccion.z * vel_actual, 30.0 * delta)
+	else:
+		velocity.x = move_toward(velocity.x, 0.0, 25.0 * delta)
+		velocity.z = move_toward(velocity.z, 0.0, 25.0 * delta)
+
+	if is_on_floor():
+		if velocity.y < 0:
+			velocity.y = 0
+		if Input.is_action_just_pressed("jump"):
+			velocity.y = fuerza_salto * sqrt(player_size)
+	else:
+		velocity.y -= gravedad * delta
+
+	move_and_slide()
+	_manejar_laser()
+
+func _process(delta):
+	if tiempo_aviso > 0:
+		tiempo_aviso -= delta
+		if tiempo_aviso <= 0:
+			warning_label.text = ""
+
+func _unhandled_input(_event):
+	if Input.is_action_just_pressed("interact_nearest"):
+		_intercambiar_cercana()
+	if Input.is_action_just_pressed("reset_level"):
+		get_tree().reload_current_scene()
+
+func _manejar_laser():
+	if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		ya_intercambio = false
+		rayo.visible = false
+		return
+
+	if ya_intercambio:
+		rayo.visible = false
+		return
+
+	var cam = get_viewport().get_camera_3d()
+	if not cam:
+		return
+
+	var mouse_pos = get_viewport().get_mouse_position()
+	var desde = cam.project_ray_origin(mouse_pos)
+	var hasta = desde + cam.project_ray_normal(mouse_pos) * 100.0
+
+	var query = PhysicsRayQueryParameters3D.create(desde, hasta)
+	query.exclude = [get_rid()]
+	var hit = get_world_3d().direct_space_state.intersect_ray(query)
+
+	var punto_destino = hasta
+	var objeto_tocado = null
+
+	if not hit.is_empty():
+		punto_destino = hit.position
+		objeto_tocado = hit.collider
+
+	var inicio_rayo = global_position + Vector3(0, 0.9 * player_size, 0)
+
+	var los_query = PhysicsRayQueryParameters3D.create(inicio_rayo, punto_destino)
+	los_query.collision_mask = 1
+	los_query.exclude = [get_rid()]
+	var los_hit = get_world_3d().direct_space_state.intersect_ray(los_query)
+
+	if not los_hit.is_empty():
+		punto_destino = los_hit.position
+
+	_dibujar_laser(inicio_rayo, punto_destino)
+
+	if objeto_tocado and objeto_tocado.is_in_group("swappable") and los_hit.is_empty():
+		var vel_suelo = Vector2(velocity.x, velocity.z).length()
+		if not is_on_floor() or vel_suelo > 0.2:
+			return
+
+		if global_position.distance_to(objeto_tocado.global_position) < 20.0:
+			if _intercambiar_tamano(objeto_tocado):
+				ya_intercambio = true
+				rayo.visible = false
+
+func _intercambiar_cercana():
+	var vel_suelo = Vector2(velocity.x, velocity.z).length()
+	if not is_on_floor() or vel_suelo > 0.2:
+		return
+
+	var mas_cercana = null
+	var menor_dist = 6.0
+	var inicio = global_position + Vector3(0, 0.9 * player_size, 0)
+
+	for caja in cajas_iniciales.keys():
+		if not is_instance_valid(caja):
+			continue
+		var dist = global_position.distance_to(caja.global_position)
+		if dist < menor_dist:
+			var query = PhysicsRayQueryParameters3D.create(inicio, caja.global_position)
+			query.collision_mask = 1
+			query.exclude = [get_rid(), caja.get_rid()]
+			if get_world_3d().direct_space_state.intersect_ray(query).is_empty():
+				mas_cercana = caja
+				menor_dist = dist
+
+	if mas_cercana != null:
+		_intercambiar_tamano(mas_cercana)
+	else:
+		warning_label.text = "No hay cajas cerca para intercambiar."
+		tiempo_aviso = 2.0
+
+func _intercambiar_tamano(caja: StaticBody3D) -> bool:
+	var tam_caja = float(caja.get_meta("size", 1.0))
+	if tam_caja == player_size:
+		return false
+
+	if tam_caja > player_size and raycast_techo.is_colliding():
+		return false
+
+	var mi_tamano_anterior = player_size
+	_set_tamano_caja(caja, mi_tamano_anterior)
+	_set_tamano_player(tam_caja)
+	return true
+
+func _set_tamano_player(tam: float):
+	player_size = tam
+	var capsule = CapsuleShape3D.new()
+	capsule.radius = 0.32 * tam
+	capsule.height = 1.8 * tam
+	colision.shape = capsule
+	colision.position.y = 0.9 * tam
+	malla.scale = Vector3.ONE * tam
+	malla.position.y = 0.9 * tam
+	floor_snap_length = 0.2 * tam
+	raycast_techo.target_position = Vector3(0, 2.0 * tam, 0)
+
+func _set_tamano_caja(caja: StaticBody3D, tam: float):
+	caja.set_meta("size", tam)
+	caja.scale = Vector3.ONE * tam
+	var base_y = float(caja.get_meta("base_y", 0.0))
+	caja.position.y = base_y + (1.25 * tam) / 2.0
+
+func _dibujar_laser(desde: Vector3, hasta: Vector3):
+	var local_desde = to_local(desde)
+	var local_hasta = to_local(hasta)
+	var mesh = ImmediateMesh.new()
+	mesh.surface_begin(Mesh.PRIMITIVE_LINES)
+	mesh.surface_add_vertex(local_desde)
+	mesh.surface_add_vertex(local_hasta)
+	mesh.surface_add_vertex(local_desde + Vector3(0.015, 0, 0))
+	mesh.surface_add_vertex(local_hasta + Vector3(0.015, 0, 0))
+	mesh.surface_add_vertex(local_desde + Vector3(-0.015, 0, 0))
+	mesh.surface_add_vertex(local_hasta + Vector3(-0.015, 0, 0))
+	mesh.surface_add_vertex(local_desde + Vector3(0, 0.015, 0))
+	mesh.surface_add_vertex(local_hasta + Vector3(0, 0.015, 0))
+	mesh.surface_add_vertex(local_desde + Vector3(0, -0.015, 0))
+	mesh.surface_add_vertex(local_hasta + Vector3(0, -0.015, 0))
+	mesh.surface_end()
+	rayo.mesh = mesh
+	rayo.visible = true

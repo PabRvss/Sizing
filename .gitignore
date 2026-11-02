@@ -1,0 +1,15 @@
+# Archivos generados por Godot 4+
+.godot/
+*.translation
+
+# Binarios y exportaciones
+*.exe
+*.pck
+*.dll
+*.so
+*.dylib
+
+# Archivos del sistema y del editor
+.DS_Store
+Thumbs.db
+.vscode/

@@ -1,0 +1,215 @@
+[gd_scene load_steps=22 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_Lava"]
+albedo_color = Color(1, 0.28, 0.05, 1)
+roughness = 0.35
+emission_enabled = true
+emission = Color(0.95, 0.2, 0.02, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="BoxMesh" id="Mesh_Lava"]
+size = Vector3(16.3, 1, 28.3)
+
+[sub_resource type="BoxShape3D" id="Shape_Lava"]
+size = Vector3(16.3, 1, 28.3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Plataforma"]
+albedo_color = Color(0.25, 0.28, 0.35, 1)
+metallic = 0.1
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="Mesh_PlatA"]
+size = Vector3(7, 0.6, 7)
+
+[sub_resource type="BoxShape3D" id="Shape_PlatA"]
+size = Vector3(7, 0.6, 7)
+
+[sub_resource type="BoxMesh" id="Mesh_PlatB"]
+size = Vector3(6, 0.6, 6)
+
+[sub_resource type="BoxShape3D" id="Shape_PlatB"]
+size = Vector3(6, 0.6, 6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_PlatC"]
+albedo_color = Color(0.2, 0.75, 0.55, 1)
+metallic = 0.1
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="Mesh_PlatC"]
+size = Vector3(6, 0.6, 6)
+
+[sub_resource type="BoxShape3D" id="Shape_PlatC"]
+size = Vector3(6, 0.6, 6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Paredes"]
+albedo_color = Color(0.12, 0.14, 0.18, 1)
+metallic = 0.1
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="Mesh_ParedLateral"]
+size = Vector3(0.6, 9, 30)
+
+[sub_resource type="BoxShape3D" id="Shape_ParedLateral"]
+size = Vector3(0.6, 9, 30)
+
+[sub_resource type="BoxMesh" id="Mesh_ParedFrenteFondo"]
+size = Vector3(22, 9, 0.6)
+
+[sub_resource type="BoxShape3D" id="Shape_ParedFrenteFondo"]
+size = Vector3(22, 9, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_CajaGrande"]
+albedo_color = Color(0.55, 0.52, 0.98, 1)
+metallic = 0.08
+roughness = 0.72
+
+[sub_resource type="BoxMesh" id="Mesh_CajaGrande"]
+size = Vector3(1.25, 1.25, 1.25)
+
+[sub_resource type="BoxShape3D" id="Shape_CajaGrande"]
+size = Vector3(1.25, 1.25, 1.25)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Letrero"]
+albedo_color = Color(0.7, 0.98, 0.8, 1)
+metallic = 0.08
+roughness = 0.72
+
+[sub_resource type="BoxMesh" id="Mesh_Letrero"]
+size = Vector3(1.6, 0.5, 0.35)
+
+[sub_resource type="BoxShape3D" id="Shape_Letrero"]
+size = Vector3(1.6, 0.5, 0.35)
+
+[sub_resource type="Environment" id="AmbienteLava"]
+background_mode = 1
+background_color = Color(0.12, 0.04, 0.03, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.9, 0.45, 0.25, 1)
+ambient_light_energy = 0.85
+
+[sub_resource type="BoxShape3D" id="MetaShape"]
+size = Vector3(5, 1.5, 5)
+
+[node name="Environment" type="Node3D"]
+
+[node name="SueloLava" type="StaticBody3D" parent="."]
+position = Vector3(0, -1.2, 0)
+
+[node name="Malla" type="MeshInstance3D" parent="SueloLava"]
+mesh = SubResource("Mesh_Lava")
+material_override = SubResource("Mat_Lava")
+
+[node name="Colision" type="CollisionShape3D" parent="SueloLava"]
+shape = SubResource("Shape_Lava")
+
+[node name="PlataformaA" type="StaticBody3D" parent="."]
+position = Vector3(0, -0.3, 8)
+
+[node name="Malla" type="MeshInstance3D" parent="PlataformaA"]
+mesh = SubResource("Mesh_PlatA")
+material_override = SubResource("Mat_Plataforma")
+
+[node name="Colision" type="CollisionShape3D" parent="PlataformaA"]
+shape = SubResource("Shape_PlatA")
+
+[node name="PlataformaB" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.4, 0)
+
+[node name="Malla" type="MeshInstance3D" parent="PlataformaB"]
+mesh = SubResource("Mesh_PlatB")
+material_override = SubResource("Mat_Plataforma")
+
+[node name="Colision" type="CollisionShape3D" parent="PlataformaB"]
+shape = SubResource("Shape_PlatB")
+
+[node name="PlataformaC" type="StaticBody3D" parent="."]
+position = Vector3(0, 3.1, -7.5)
+
+[node name="Malla" type="MeshInstance3D" parent="PlataformaC"]
+mesh = SubResource("Mesh_PlatC")
+material_override = SubResource("Mat_PlatC")
+
+[node name="Colision" type="CollisionShape3D" parent="PlataformaC"]
+shape = SubResource("Shape_PlatC")
+
+[node name="ParedIzquierda" type="StaticBody3D" parent="."]
+position = Vector3(-8.5, 3.5, 0)
+
+[node name="Malla" type="MeshInstance3D" parent="ParedIzquierda"]
+mesh = SubResource("Mesh_ParedLateral")
+material_override = SubResource("Mat_Paredes")
+
+[node name="Colision" type="CollisionShape3D" parent="ParedIzquierda"]
+shape = SubResource("Shape_ParedLateral")
+
+[node name="ParedDerecha" type="StaticBody3D" parent="."]
+position = Vector3(8.5, 3.5, 0)
+
+[node name="Malla" type="MeshInstance3D" parent="ParedDerecha"]
+mesh = SubResource("Mesh_ParedLateral")
+material_override = SubResource("Mat_Paredes")
+
+[node name="Colision" type="CollisionShape3D" parent="ParedDerecha"]
+shape = SubResource("Shape_ParedLateral")
+
+[node name="ParedFondo" type="StaticBody3D" parent="."]
+position = Vector3(0, 3.5, 14.5)
+
+[node name="Malla" type="MeshInstance3D" parent="ParedFondo"]
+mesh = SubResource("Mesh_ParedFrenteFondo")
+material_override = SubResource("Mat_Paredes")
+
+[node name="Colision" type="CollisionShape3D" parent="ParedFondo"]
+shape = SubResource("Shape_ParedFrenteFondo")
+
+[node name="ParedFrente" type="StaticBody3D" parent="."]
+position = Vector3(0, 3.5, -14.5)
+
+[node name="Malla" type="MeshInstance3D" parent="ParedFrente"]
+mesh = SubResource("Mesh_ParedFrenteFondo")
+material_override = SubResource("Mat_Paredes")
+
+[node name="Colision" type="CollisionShape3D" parent="ParedFrente"]
+shape = SubResource("Shape_ParedFrenteFondo")
+
+[node name="CajaGrande" type="StaticBody3D" parent="." groups=["swappable"]]
+position = Vector3(0, 2.95, 0)
+scale = Vector3(2, 2, 2)
+collision_layer = 2
+collision_mask = 0
+metadata/size = 2.0
+
+[node name="Malla" type="MeshInstance3D" parent="CajaGrande"]
+mesh = SubResource("Mesh_CajaGrande")
+material_override = SubResource("Mat_CajaGrande")
+
+[node name="Colision" type="CollisionShape3D" parent="CajaGrande"]
+shape = SubResource("Shape_CajaGrande")
+
+[node name="LetreroMeta" type="StaticBody3D" parent="."]
+position = Vector3(0, 3.8, -9.5)
+collision_layer = 0
+collision_mask = 0
+
+[node name="Malla" type="MeshInstance3D" parent="LetreroMeta"]
+mesh = SubResource("Mesh_Letrero")
+material_override = SubResource("Mat_Letrero")
+
+[node name="Colision" type="CollisionShape3D" parent="LetreroMeta"]
+shape = SubResource("Shape_Letrero")
+
+[node name="Meta" type="Area3D" parent="."]
+position = Vector3(0, 4.15, -7.5)
+collision_layer = 0
+collision_mask = 4
+
+[node name="Colision" type="CollisionShape3D" parent="Meta"]
+shape = SubResource("MetaShape")
+
+[node name="Luz" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.959931, -0.436332, 0)
+light_color = Color(1, 0.88, 0.78, 1)
+light_energy = 1.4
+
+[node name="Ambiente" type="WorldEnvironment" parent="."]
+environment = SubResource("AmbienteLava")

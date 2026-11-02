@@ -1,0 +1,166 @@
+[gd_scene format=3 uid="uid://b4d84jcsrsjij"]
+
+[ext_resource type="Script" uid="uid://dvchlo0jhrfw1" path="res://main_menu.gd" id="1_menu"]
+
+[node name="MainMenu" type="Control" unique_id=1854630193]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Background" type="ColorRect" parent="." unique_id=403621941]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.441365, 0.441365, 0.441365, 1)
+
+[node name="MenuContainer" type="VBoxContainer" parent="." unique_id=158296740]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -100.0
+offset_right = 80.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="MenuContainer" unique_id=460215588]
+layout_mode = 2
+text = "Sizing"
+horizontal_alignment = 1
+
+[node name="PlayButton" type="Button" parent="MenuContainer" unique_id=1498857371]
+layout_mode = 2
+text = "Jugar"
+
+[node name="ControlsButton" type="Button" parent="MenuContainer" unique_id=485305003]
+layout_mode = 2
+text = "Controles"
+
+[node name="CreditsButton" type="Button" parent="MenuContainer" unique_id=809042591]
+layout_mode = 2
+text = "Créditos"
+
+[node name="QuitButton" type="Button" parent="MenuContainer" unique_id=1162148967]
+layout_mode = 2
+text = "Salir del Juego"
+
+[node name="ControlsPanel" type="Panel" parent="." unique_id=413005352]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -190.0
+offset_right = 260.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlsPanel" unique_id=790076208]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlsPanel/MarginContainer" unique_id=991530336]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="ControlsPanel/MarginContainer/VBoxContainer" unique_id=1611548751]
+layout_mode = 2
+text = "CONTROLES"
+horizontal_alignment = 1
+
+[node name="CloseControlsButton" type="Button" parent="ControlsPanel/MarginContainer/VBoxContainer" unique_id=1710019990]
+layout_mode = 2
+text = "Volver al Menú"
+
+[node name="ControlsText" type="RichTextLabel" parent="ControlsPanel/MarginContainer/VBoxContainer" unique_id=240145077]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[center]
+[b]WASD:[/b] Moverse (orientado a la cámara)
+[b]Espacio:[/b] Saltar (la altura aumenta según tamaño)
+[b]Flechas ← y →:[/b] Rotar vista aérea
+[b]Mantener Clic:[/b] Apuntar y proyectar rayo láser
+[b]E:[/b] Intercambio rápido con caja cercana
+[b]R:[/b] Reiniciar nivel
+
+[i]El rayo requiere que el personaje esté apoyado en el suelo y quieto.[/i]
+[/center]"
+fit_content = true
+
+[node name="CreditsPanel" type="Panel" parent="." unique_id=1209245655]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -180.0
+offset_right = 260.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CreditsPanel" unique_id=2016359500]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CreditsPanel/MarginContainer" unique_id=635830715]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="CreditsPanel/MarginContainer/VBoxContainer" unique_id=41270743]
+layout_mode = 2
+text = "CRÉDITOS Y PROYECTO"
+horizontal_alignment = 1
+
+[node name="CloseCreditsButton" type="Button" parent="CreditsPanel/MarginContainer/VBoxContainer" unique_id=523855474]
+layout_mode = 2
+text = "Volver al Menú"
+
+[node name="CreditsText" type="RichTextLabel" parent="CreditsPanel/MarginContainer/VBoxContainer" unique_id=533620756]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[center]
+[b]DESARROLLO[/b]
+Popstar Games, un equipo formado por: Carla_F, GothaxD, PabRvss & vaaa.leee
+
+[b]MOTOR[/b]
+Godot 4.7.2
+[/center]"
+fit_content = true
