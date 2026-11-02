@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://level_controller.gd" id="1_controller"]
+[ext_resource type="PackedScene" path="res://environment_4.tscn" id="2_env"]
+[ext_resource type="PackedScene" path="res://player.tscn" id="3_player"]
+[ext_resource type="Script" path="res://camera_3d.gd" id="4_camera"]
+[ext_resource type="PackedScene" path="res://PauseMenu.tscn" id="5_pause"]
+
+[node name="main" type="Node3D"]
+script = ExtResource("1_controller")
+siguiente_nivel = "res://level_5.tscn"
+menu_principal = "res://MainMenu.tscn"
+
+[node name="Environment" parent="." instance=ExtResource("2_env")]
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.1, 2.8)
+tamano_inicial = 2.0
+lava_kill_y = -1.5
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.881958, -0.383022, 0.275064, 0, 0.582697, 0.812689, -0.471329, -0.71676, 0.513914, 4.6, 14.5, 10.1)
+current = true
+fov = 55.0
+script = ExtResource("4_camera")
+
+[node name="PauseMenu" parent="." instance=ExtResource("5_pause")]
+
+[node name="VictoryUI" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="VictoryUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="VictoryUI/CenterContainer"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VictoryUI/CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Nivel Superado"
+horizontal_alignment = 1
+
+[node name="NextLevelButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Siguiente Nivel"
+
+[node name="RetryButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Reiniciar"
+
+[node name="MainMenuButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Volver al Menú"

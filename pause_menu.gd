@@ -36,6 +36,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		toggle_pause()
 
 func toggle_pause() -> void:
+	# Una pausa externa (como la muerte) solo se resuelve desde su propia pantalla.
+	if get_tree().paused and not overlay.visible:
+		return
 	var is_paused := not get_tree().paused
 	get_tree().paused = is_paused
 	overlay.visible = is_paused
@@ -43,6 +46,7 @@ func toggle_pause() -> void:
 	menu_container.get_parent().get_parent().show()
 
 	if is_paused:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		resume_button.grab_focus()
 
 func _on_resume_button_pressed() -> void:

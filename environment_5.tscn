@@ -1,0 +1,362 @@
+[gd_scene load_steps=50 format=3]
+
+[ext_resource type="PackedScene" path="res://goal.tscn" id="GoalScene"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.22, 0.28, 0.36, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_wall"]
+albedo_color = Color(0.16, 0.21, 0.29, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_barrier"]
+albedo_color = Color(0.9, 0.52, 0.34, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_small"]
+albedo_color = Color(0.95, 0.82, 0.34, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_normal"]
+albedo_color = Color(0.59, 0.56, 0.95, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_large"]
+albedo_color = Color(0.59, 0.56, 0.95, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_goal"]
+albedo_color = Color(0.24, 0.8, 0.59, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_lava"]
+albedo_color = Color(1.0, 0.22, 0.03, 1)
+roughness = 0.8
+emission_enabled = true
+emission = Color(0.8, 0.12, 0.01, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="BoxMesh" id="Mesh_Lava"]
+size = Vector3(22, 1, 48)
+
+[sub_resource type="BoxShape3D" id="Shape_Lava"]
+size = Vector3(22, 1, 48)
+
+[sub_resource type="BoxMesh" id="Mesh_IslaA"]
+size = Vector3(10, 0.6, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_IslaA"]
+size = Vector3(10, 0.6, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_TunelIzq"]
+size = Vector3(4.0, 6, 1.6)
+
+[sub_resource type="BoxShape3D" id="Shape_TunelIzq"]
+size = Vector3(4.0, 6, 1.6)
+
+[sub_resource type="BoxMesh" id="Mesh_TunelDer"]
+size = Vector3(4.0, 6, 1.6)
+
+[sub_resource type="BoxShape3D" id="Shape_TunelDer"]
+size = Vector3(4.0, 6, 1.6)
+
+[sub_resource type="BoxMesh" id="Mesh_TechoTunel"]
+size = Vector3(2, 4.85, 1.6)
+
+[sub_resource type="BoxShape3D" id="Shape_TechoTunel"]
+size = Vector3(2, 4.85, 1.6)
+
+[sub_resource type="BoxMesh" id="Mesh_CajaPequena"]
+size = Vector3(1.25, 1.25, 1.25)
+
+[sub_resource type="BoxShape3D" id="Shape_CajaPequena"]
+size = Vector3(1.25, 1.25, 1.25)
+
+[sub_resource type="BoxMesh" id="Mesh_CajaGrande"]
+size = Vector3(1.25, 1.25, 1.25)
+
+[sub_resource type="BoxShape3D" id="Shape_CajaGrande"]
+size = Vector3(1.25, 1.25, 1.25)
+
+[sub_resource type="BoxMesh" id="Mesh_IslaB"]
+size = Vector3(10, 0.6, 14)
+
+[sub_resource type="BoxShape3D" id="Shape_IslaB"]
+size = Vector3(10, 0.6, 14)
+
+[sub_resource type="BoxMesh" id="Mesh_ParedIzq"]
+size = Vector3(0.5, 6, 14)
+
+[sub_resource type="BoxShape3D" id="Shape_ParedIzq"]
+size = Vector3(0.5, 6, 14)
+
+[sub_resource type="BoxMesh" id="Mesh_ParedDer"]
+size = Vector3(0.5, 6, 14)
+
+[sub_resource type="BoxShape3D" id="Shape_ParedDer"]
+size = Vector3(0.5, 6, 14)
+
+[sub_resource type="BoxMesh" id="Mesh_ParedFinal"]
+size = Vector3(11, 6, 0.5)
+
+[sub_resource type="BoxShape3D" id="Shape_ParedFinal"]
+size = Vector3(11, 6, 0.5)
+
+[sub_resource type="BoxMesh" id="Mesh_PasoNormal"]
+size = Vector3(10, 0.55, 1.2)
+
+[sub_resource type="BoxShape3D" id="Shape_PasoNormal"]
+size = Vector3(10, 0.55, 1.2)
+
+[sub_resource type="BoxMesh" id="Mesh_CajaNormal"]
+size = Vector3(1.25, 1.25, 1.25)
+
+[sub_resource type="BoxShape3D" id="Shape_CajaNormal"]
+size = Vector3(1.25, 1.25, 1.25)
+
+[sub_resource type="BoxMesh" id="Mesh_ApoyoBajo"]
+size = Vector3(2, 0.8, 2)
+
+[sub_resource type="BoxShape3D" id="Shape_ApoyoBajo"]
+size = Vector3(2, 0.8, 2)
+
+[sub_resource type="BoxMesh" id="Mesh_ApoyoAlto"]
+size = Vector3(1.4, 1.6, 2)
+
+[sub_resource type="BoxShape3D" id="Shape_ApoyoAlto"]
+size = Vector3(1.4, 1.6, 2)
+
+[sub_resource type="BoxMesh" id="Mesh_CajaEscalon"]
+size = Vector3(1.25, 1.25, 1.25)
+
+[sub_resource type="BoxShape3D" id="Shape_CajaEscalon"]
+size = Vector3(1.25, 1.25, 1.25)
+
+[sub_resource type="BoxMesh" id="Mesh_SalidaElevada"]
+size = Vector3(10, 0.6, 4)
+
+[sub_resource type="BoxShape3D" id="Shape_SalidaElevada"]
+size = Vector3(10, 0.6, 4)
+
+[sub_resource type="BoxMesh" id="Mesh_IslaC"]
+size = Vector3(8, 0.6, 5)
+
+[sub_resource type="BoxShape3D" id="Shape_IslaC"]
+size = Vector3(8, 0.6, 5)
+
+[sub_resource type="BoxMesh" id="Mesh_MarcaMeta"]
+size = Vector3(3, 0.05, 2)
+
+[sub_resource type="BoxShape3D" id="Shape_MarcaMeta"]
+size = Vector3(3, 0.05, 2)
+
+[sub_resource type="BoxShape3D" id="GoalShape"]
+size = Vector3(3, 1.5, 2)
+
+[sub_resource type="Environment" id="Ambiente"]
+background_mode = 1
+background_color = Color(0.06, 0.09, 0.15, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.65, 0.72, 0.82, 1)
+ambient_light_energy = 0.65
+
+[node name="Environment" type="Node3D"]
+
+[node name="Lava" type="StaticBody3D" parent="."]
+position = Vector3(0, -2.5, -12)
+
+[node name="Malla" type="MeshInstance3D" parent="Lava"]
+mesh = SubResource("Mesh_Lava")
+material_override = SubResource("Mat_lava")
+
+[node name="Colision" type="CollisionShape3D" parent="Lava"]
+shape = SubResource("Shape_Lava")
+
+[node name="IslaA" type="StaticBody3D" parent="."]
+position = Vector3(0, -0.3, 2)
+
+[node name="Malla" type="MeshInstance3D" parent="IslaA"]
+mesh = SubResource("Mesh_IslaA")
+material_override = SubResource("Mat_floor")
+
+[node name="Colision" type="CollisionShape3D" parent="IslaA"]
+shape = SubResource("Shape_IslaA")
+
+[node name="TunelIzq" type="StaticBody3D" parent="."]
+position = Vector3(-3.0, 3, 3)
+
+[node name="Malla" type="MeshInstance3D" parent="TunelIzq"]
+mesh = SubResource("Mesh_TunelIzq")
+material_override = SubResource("Mat_barrier")
+
+[node name="Colision" type="CollisionShape3D" parent="TunelIzq"]
+shape = SubResource("Shape_TunelIzq")
+
+[node name="TunelDer" type="StaticBody3D" parent="."]
+position = Vector3(3.0, 3, 3)
+
+[node name="Malla" type="MeshInstance3D" parent="TunelDer"]
+mesh = SubResource("Mesh_TunelDer")
+material_override = SubResource("Mat_barrier")
+
+[node name="Colision" type="CollisionShape3D" parent="TunelDer"]
+shape = SubResource("Shape_TunelDer")
+
+[node name="TechoTunel" type="StaticBody3D" parent="."]
+position = Vector3(0, 3.575, 3)
+
+[node name="Malla" type="MeshInstance3D" parent="TechoTunel"]
+mesh = SubResource("Mesh_TechoTunel")
+material_override = SubResource("Mat_barrier")
+
+[node name="Colision" type="CollisionShape3D" parent="TechoTunel"]
+shape = SubResource("Shape_TechoTunel")
+
+[node name="CajaPequena" type="StaticBody3D" parent="." groups=["swappable"]]
+position = Vector3(2, 0.3125, 6)
+scale = Vector3(0.5, 0.5, 0.5)
+collision_layer = 2
+collision_mask = 0
+metadata/size = 0.5
+
+[node name="Malla" type="MeshInstance3D" parent="CajaPequena"]
+mesh = SubResource("Mesh_CajaPequena")
+material_override = SubResource("Mat_small")
+
+[node name="Colision" type="CollisionShape3D" parent="CajaPequena"]
+shape = SubResource("Shape_CajaPequena")
+
+[node name="CajaGrande" type="StaticBody3D" parent="." groups=["swappable"]]
+position = Vector3(2, 1.25, -1)
+scale = Vector3(2, 2, 2)
+collision_layer = 2
+collision_mask = 0
+metadata/size = 2.0
+
+[node name="Malla" type="MeshInstance3D" parent="CajaGrande"]
+mesh = SubResource("Mesh_CajaGrande")
+material_override = SubResource("Mat_large")
+
+[node name="Colision" type="CollisionShape3D" parent="CajaGrande"]
+shape = SubResource("Shape_CajaGrande")
+
+[node name="IslaB" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.4, -15)
+
+[node name="Malla" type="MeshInstance3D" parent="IslaB"]
+mesh = SubResource("Mesh_IslaB")
+material_override = SubResource("Mat_floor")
+
+[node name="Colision" type="CollisionShape3D" parent="IslaB"]
+shape = SubResource("Shape_IslaB")
+
+[node name="ParedIzq" type="StaticBody3D" parent="."]
+position = Vector3(-5.25, 4.7, -15.0)
+
+[node name="Malla" type="MeshInstance3D" parent="ParedIzq"]
+mesh = SubResource("Mesh_ParedIzq")
+material_override = SubResource("Mat_wall")
+
+[node name="Colision" type="CollisionShape3D" parent="ParedIzq"]
+shape = SubResource("Shape_ParedIzq")
+
+[node name="ParedDer" type="StaticBody3D" parent="."]
+position = Vector3(5.25, 4.7, -15.0)
+
+[node name="Malla" type="MeshInstance3D" parent="ParedDer"]
+mesh = SubResource("Mesh_ParedDer")
+material_override = SubResource("Mat_wall")
+
+[node name="Colision" type="CollisionShape3D" parent="ParedDer"]
+shape = SubResource("Shape_ParedDer")
+
+[node name="PasoNormal" type="StaticBody3D" parent="."]
+position = Vector3(0, 4.025, -12)
+
+[node name="Malla" type="MeshInstance3D" parent="PasoNormal"]
+mesh = SubResource("Mesh_PasoNormal")
+material_override = SubResource("Mat_barrier")
+
+[node name="Colision" type="CollisionShape3D" parent="PasoNormal"]
+shape = SubResource("Shape_PasoNormal")
+
+[node name="CajaNormal" type="StaticBody3D" parent="." groups=["swappable"]]
+position = Vector3(-2.8, 2.325, -9.5)
+scale = Vector3(1, 1, 1)
+collision_layer = 2
+collision_mask = 0
+metadata/size = 1.0
+
+[node name="Malla" type="MeshInstance3D" parent="CajaNormal"]
+mesh = SubResource("Mesh_CajaNormal")
+material_override = SubResource("Mat_large")
+
+[node name="Colision" type="CollisionShape3D" parent="CajaNormal"]
+shape = SubResource("Shape_CajaNormal")
+
+[node name="ApoyoBajo" type="StaticBody3D" parent="."]
+position = Vector3(-2, 2.1, -14.6)
+
+[node name="Malla" type="MeshInstance3D" parent="ApoyoBajo"]
+mesh = SubResource("Mesh_ApoyoBajo")
+material_override = SubResource("Mat_floor")
+
+[node name="Colision" type="CollisionShape3D" parent="ApoyoBajo"]
+shape = SubResource("Shape_ApoyoBajo")
+
+[node name="ApoyoAlto" type="StaticBody3D" parent="."]
+position = Vector3(0, 2.5, -15)
+
+[node name="Malla" type="MeshInstance3D" parent="ApoyoAlto"]
+mesh = SubResource("Mesh_ApoyoAlto")
+material_override = SubResource("Mat_floor")
+
+[node name="Colision" type="CollisionShape3D" parent="ApoyoAlto"]
+shape = SubResource("Shape_ApoyoAlto")
+
+[node name="CajaEscalon" type="StaticBody3D" parent="." groups=["swappable"]]
+position = Vector3(2, 2.0125, -15)
+scale = Vector3(0.5, 0.5, 0.5)
+collision_layer = 2
+collision_mask = 0
+metadata/size = 0.5
+
+[node name="Malla" type="MeshInstance3D" parent="CajaEscalon"]
+mesh = SubResource("Mesh_CajaEscalon")
+material_override = SubResource("Mat_small")
+
+[node name="Colision" type="CollisionShape3D" parent="CajaEscalon"]
+shape = SubResource("Shape_CajaEscalon")
+
+[node name="SalidaElevada" type="StaticBody3D" parent="."]
+position = Vector3(0, 4.8, -19)
+
+[node name="Malla" type="MeshInstance3D" parent="SalidaElevada"]
+mesh = SubResource("Mesh_SalidaElevada")
+material_override = SubResource("Mat_floor")
+
+[node name="Colision" type="CollisionShape3D" parent="SalidaElevada"]
+shape = SubResource("Shape_SalidaElevada")
+
+[node name="IslaC" type="StaticBody3D" parent="."]
+position = Vector3(0, 4.8, -25.5)
+
+[node name="Malla" type="MeshInstance3D" parent="IslaC"]
+mesh = SubResource("Mesh_IslaC")
+material_override = SubResource("Mat_floor")
+
+[node name="Colision" type="CollisionShape3D" parent="IslaC"]
+shape = SubResource("Shape_IslaC")
+
+[node name="Luz" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.96, -0.44, 0)
+light_energy = 1.4
+shadow_enabled = true
+directional_shadow_mode = 2
+
+[node name="Ambiente" type="WorldEnvironment" parent="."]
+environment = SubResource("Ambiente")
+
+[node name="Meta" parent="." instance=ExtResource("GoalScene")]
+position = Vector3(0, 5.1, -25.5)

@@ -8,7 +8,7 @@
 
 [node name="main" type="Node3D"]
 script = ExtResource("1_controller")
-es_nivel_2 = true
+siguiente_nivel = "res://level_3.tscn"
 menu_principal = "res://MainMenu.tscn"
 
 [node name="Environment" parent="." instance=ExtResource("2_env2")]
@@ -53,6 +53,10 @@ theme_override_constants/separation = 10
 layout_mode = 2
 text = "Nivel Superado"
 horizontal_alignment = 1
+
+[node name="NextLevelButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Siguiente Nivel"
 
 [node name="RetryButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

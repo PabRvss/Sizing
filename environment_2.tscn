@@ -1,4 +1,6 @@
-[gd_scene load_steps=22 format=3]
+[gd_scene load_steps=23 format=3]
+
+[ext_resource type="PackedScene" path="res://goal.tscn" id="GoalScene"]
 
 [sub_resource type="StandardMaterial3D" id="Mat_Lava"]
 albedo_color = Color(1, 0.28, 0.05, 1)
@@ -186,30 +188,15 @@ material_override = SubResource("Mat_CajaGrande")
 [node name="Colision" type="CollisionShape3D" parent="CajaGrande"]
 shape = SubResource("Shape_CajaGrande")
 
-[node name="LetreroMeta" type="StaticBody3D" parent="."]
-position = Vector3(0, 3.8, -9.5)
-collision_layer = 0
-collision_mask = 0
-
-[node name="Malla" type="MeshInstance3D" parent="LetreroMeta"]
-mesh = SubResource("Mesh_Letrero")
-material_override = SubResource("Mat_Letrero")
-
-[node name="Colision" type="CollisionShape3D" parent="LetreroMeta"]
-shape = SubResource("Shape_Letrero")
-
-[node name="Meta" type="Area3D" parent="."]
-position = Vector3(0, 4.15, -7.5)
-collision_layer = 0
-collision_mask = 4
-
-[node name="Colision" type="CollisionShape3D" parent="Meta"]
-shape = SubResource("MetaShape")
-
 [node name="Luz" type="DirectionalLight3D" parent="."]
 rotation = Vector3(-0.959931, -0.436332, 0)
 light_color = Color(1, 0.88, 0.78, 1)
 light_energy = 1.4
+shadow_enabled = true
+directional_shadow_mode = 2
 
 [node name="Ambiente" type="WorldEnvironment" parent="."]
 environment = SubResource("AmbienteLava")
+
+[node name="Meta" parent="." instance=ExtResource("GoalScene")]
+position = Vector3(0, 3.4, -7.5)

@@ -4,28 +4,54 @@ extends CharacterBody3D
 @export var fuerza_salto = 6.3
 @export var gravedad = 17.0
 @export var lava_kill_y = -0.5
+@export var tamano_inicial: float = 1.0
 
 @onready var colision = $Colision
 @onready var malla = $Malla
 @onready var rayo = $Rayo
 @onready var raycast_techo = $RayCastTecho
 @onready var warning_label = $HUD/WarningLabel
+@onready var death_menu = $DeathMenu
+@onready var soporte_rifle: Node3D = $SoporteRifle
+@onready var boca_rifle: Marker3D = $SoporteRifle/BocaRifle
+@onready var robot: Node3D = $Malla/Robot
 
 var player_size = 1.0
 var ya_intercambio = false
 var cajas_iniciales = {}
 var tiempo_aviso = 0.0
+var muerto: bool = false
+var nivel_completado: bool = false
+var esqueleto: Skeleton3D
+var animador: AnimationPlayer
+var animaciones: Dictionary = {}
+var mano_derecha: int = -1
 
 func _ready():
 	warning_label.text = ""
+	_set_tamano_player(tamano_inicial)
+	esqueleto = _buscar_esqueleto(robot)
+	if esqueleto:
+		mano_derecha = esqueleto.find_bone("hand.R")
+	animador = _buscar_animador(robot)
+	if animador:
+		for pista in animador.get_animation_list():
+			for nombre in ["Idle", "Walk", "Jump"]:
+				if str(pista).ends_with(nombre):
+					animaciones[nombre] = pista
+					if nombre != "Jump":
+						animador.get_animation(pista).loop_mode = Animation.LOOP_LINEAR
+		_reproducir_animacion("Idle")
 	for caja in get_tree().get_nodes_in_group("swappable"):
 		var s = float(caja.get_meta("size", 1.0))
 		cajas_iniciales[caja] = {"pos": caja.position, "tam": s}
 		caja.set_meta("base_y", caja.position.y - (1.25 * s) / 2.0)
 
 func _physics_process(delta):
+	if muerto:
+		return
 	if global_position.y < lava_kill_y:
-		get_tree().reload_current_scene()
+		_morir()
 		return
 
 	var cam = get_viewport().get_camera_3d()
@@ -40,6 +66,8 @@ func _physics_process(delta):
 		derecha = derecha.normalized()
 
 	var input = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	if nivel_completado:
+		input = Vector2.ZERO
 	var direccion = (derecha * input.x + adelante * -input.y).normalized()
 
 	var vel_actual = velocidad * sqrt(player_size)
@@ -53,7 +81,7 @@ func _physics_process(delta):
 	if is_on_floor():
 		if velocity.y < 0:
 			velocity.y = 0
-		if Input.is_action_just_pressed("jump"):
+		if not nivel_completado and Input.is_action_just_pressed("jump"):
 			velocity.y = fuerza_salto * sqrt(player_size)
 	else:
 		velocity.y -= gravedad * delta
@@ -62,18 +90,80 @@ func _physics_process(delta):
 	_manejar_laser()
 
 func _process(delta):
+	_actualizar_animacion()
 	if tiempo_aviso > 0:
 		tiempo_aviso -= delta
 		if tiempo_aviso <= 0:
 			warning_label.text = ""
 
+func _buscar_esqueleto(nodo: Node) -> Skeleton3D:
+	if nodo is Skeleton3D:
+		return nodo
+	for hijo in nodo.get_children():
+		var encontrado := _buscar_esqueleto(hijo)
+		if encontrado:
+			return encontrado
+	return null
+
+func _buscar_animador(nodo: Node) -> AnimationPlayer:
+	if nodo is AnimationPlayer:
+		return nodo
+	for hijo in nodo.get_children():
+		var encontrado := _buscar_animador(hijo)
+		if encontrado:
+			return encontrado
+	return null
+
+func _reproducir_animacion(nombre: String) -> void:
+	if animador and animaciones.has(nombre):
+		var pista: StringName = animaciones[nombre]
+		if animador.current_animation != pista:
+			animador.play(pista, 0.15)
+
+func _actualizar_animacion() -> void:
+	var velocidad_suelo := Vector2(velocity.x, velocity.z).length()
+	var caminando := is_on_floor() and velocidad_suelo > 0.2 and not nivel_completado
+	var saltando := not is_on_floor() and absf(velocity.y) > 0.1
+	if saltando:
+		_reproducir_animacion("Jump")
+	elif caminando:
+		_reproducir_animacion("Walk")
+	else:
+		_reproducir_animacion("Idle")
+	if esqueleto and mano_derecha >= 0:
+		var mano_global := esqueleto.to_global(esqueleto.get_bone_global_pose(mano_derecha).origin)
+		soporte_rifle.global_position = mano_global + Vector3(0.0, 0.0, -0.14 * player_size)
+
 func _unhandled_input(_event):
+	if muerto or nivel_completado:
+		return
 	if Input.is_action_just_pressed("interact_nearest"):
 		_intercambiar_cercana()
 	if Input.is_action_just_pressed("reset_level"):
 		get_tree().reload_current_scene()
 
+func completar_nivel() -> void:
+	nivel_completado = true
+	# Detener el desplazamiento; conservar la velocidad vertical para aterrizar.
+	velocity.x = 0.0
+	velocity.z = 0.0
+	rayo.hide()
+	warning_label.text = ""
+	tiempo_aviso = 0.0
+
+func _morir() -> void:
+	if muerto:
+		return
+	muerto = true
+	velocity = Vector3.ZERO
+	rayo.hide()
+	warning_label.text = ""
+	death_menu.show_death()
+
 func _manejar_laser():
+	if nivel_completado:
+		rayo.hide()
+		return
 	if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		ya_intercambio = false
 		rayo.visible = false
@@ -102,7 +192,7 @@ func _manejar_laser():
 		punto_destino = hit.position
 		objeto_tocado = hit.collider
 
-	var inicio_rayo = global_position + Vector3(0, 0.9 * player_size, 0)
+	var inicio_rayo = boca_rifle.global_position
 
 	var los_query = PhysicsRayQueryParameters3D.create(inicio_rayo, punto_destino)
 	los_query.collision_mask = 1
@@ -156,13 +246,24 @@ func _intercambiar_tamano(caja: StaticBody3D) -> bool:
 	if tam_caja == player_size:
 		return false
 
-	if tam_caja > player_size and raycast_techo.is_colliding():
+	if tam_caja > player_size and not _puede_crecer(tam_caja):
 		return false
 
 	var mi_tamano_anterior = player_size
 	_set_tamano_caja(caja, mi_tamano_anterior)
 	_set_tamano_player(tam_caja)
 	return true
+
+func _puede_crecer(tam: float) -> bool:
+	var capsule = CapsuleShape3D.new()
+	capsule.radius = 0.32 * tam * 0.98
+	capsule.height = 1.8 * tam - 0.04
+	var query = PhysicsShapeQueryParameters3D.new()
+	query.shape = capsule
+	query.transform = Transform3D(Basis(), global_position + Vector3(0, 0.9 * tam, 0))
+	query.collision_mask = collision_mask
+	query.exclude = [get_rid()]
+	return get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty()
 
 func _set_tamano_player(tam: float):
 	player_size = tam
@@ -172,7 +273,9 @@ func _set_tamano_player(tam: float):
 	colision.shape = capsule
 	colision.position.y = 0.9 * tam
 	malla.scale = Vector3.ONE * tam
-	malla.position.y = 0.9 * tam
+	malla.position.y = 0.0
+	soporte_rifle.position = Vector3(0.82, 0.93, -0.22) * tam
+	soporte_rifle.scale = Vector3.ONE * tam
 	floor_snap_length = 0.2 * tam
 	raycast_techo.target_position = Vector3(0, 2.0 * tam, 0)
 

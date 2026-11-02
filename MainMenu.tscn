@@ -121,9 +121,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -260.0
-offset_top = -180.0
+offset_top = -220.0
 offset_right = 260.0
-offset_bottom = 180.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -162,5 +162,9 @@ Popstar Games, un equipo formado por: Carla_F, GothaxD, PabRvss & vaaa.leee
 
 [b]MOTOR[/b]
 Godot 4.7.2
+
+[b]MODELOS 3D[/b]
+Robot: The amazing white bot!, de Denoiser (BlendSwap, CC-BY)
+Rifle: Sci-fi - Low Poly - Guns, de Ietermagog (BlendSwap, CC0)
 [/center]"
 fit_content = true
