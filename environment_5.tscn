@@ -1,6 +1,7 @@
-[gd_scene load_steps=61 format=3]
+[gd_scene load_steps=62 format=3]
 
 [ext_resource type="PackedScene" path="res://goal.tscn" id="GoalScene"]
+[ext_resource type="PackedScene" path="res://coin.tscn" id="CoinScene"]
 
 [ext_resource type="Texture2D" uid="uid://bl4e780hnpllp" path="res://PavingStones146_1K-JPG_Color.jpg" id="PavingStonesTexture"]
 
@@ -457,6 +458,10 @@ shape = SubResource("Shape_IslaC")
 
 [node name="Meta" parent="." instance=ExtResource("GoalScene")]
 position = Vector3(0, 5.1, -25.5)
+
+[node name="Moneda" parent="." instance=ExtResource("CoinScene")]
+position = Vector3(-3.8, 5.5, -20.2)
+nivel = 5
 
 [node name="Luz" type="DirectionalLight3D" parent="."]
 rotation = Vector3(-0.96, -0.44, 0)

@@ -73,5 +73,3 @@ func _physics_process(delta):
 		var offset := Vector3(sin(angulo_y) * distancia, altura, cos(angulo_y) * distancia)
 		global_position = global_position.lerp(target.global_position + offset, 6.0 * delta)
 		look_at(target.global_position + Vector3(0, 0.5, 0), Vector3.UP)
-
-

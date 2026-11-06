@@ -11,6 +11,7 @@ extends CharacterBody3D
 @onready var rayo = $Rayo
 @onready var raycast_techo = $RayCastTecho
 @onready var warning_label = $HUD/WarningLabel
+@onready var coin_label: Label = get_node_or_null("HUD/CoinLabel")
 @onready var death_menu = $DeathMenu
 @onready var soporte_rifle: Node3D = $SoporteRifle
 @onready var boca_rifle: Marker3D = $SoporteRifle/BocaRifle
@@ -29,6 +30,7 @@ var mano_derecha: int = -1
 
 func _ready():
 	warning_label.text = ""
+	_actualizar_contador_monedas()
 	_set_tamano_player(tamano_inicial)
 	_aplicar_color_robot(robot, Color(0.62, 0.62, 0.64, 1.0))
 	esqueleto = _buscar_esqueleto(robot)
@@ -352,3 +354,12 @@ func _dibujar_laser(desde: Vector3, hasta: Vector3):
 	mesh.surface_end()
 	rayo.mesh = mesh
 	rayo.visible = true
+
+func _actualizar_contador_monedas() -> void:
+	if coin_label:
+		coin_label.text = "🪙 %d/5" % Moneda.total_recogidas()
+
+func notificar_coleccionable(n: int) -> void:
+	_actualizar_contador_monedas()
+	warning_label.text = "¡Coleccionable secreto encontrado! (Nivel %d - Total: %d/5)" % [n, Moneda.total_recogidas()]
+	tiempo_aviso = 4.0

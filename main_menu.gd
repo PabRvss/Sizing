@@ -34,6 +34,10 @@ func _ready() -> void:
 	if close_credits_button:
 		close_credits_button.pressed.connect(_on_close_subpanels_pressed)
 
+	var collectibles_label = get_node_or_null("MenuContainer/CollectiblesLabel")
+	if collectibles_label:
+		collectibles_label.text = "🪙 Coleccionables: %d/5" % Moneda.total_recogidas()
+
 func _on_play_button_pressed() -> void:
 	get_tree().change_scene_to_file(main_level_scene)
 

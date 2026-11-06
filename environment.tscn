@@ -1,6 +1,7 @@
-[gd_scene load_steps=27 format=3]
+[gd_scene load_steps=28 format=3]
 
 [ext_resource type="PackedScene" path="res://goal.tscn" id="GoalScene"]
+[ext_resource type="PackedScene" path="res://coin.tscn" id="CoinScene"]
 [ext_resource type="Texture2D" uid="uid://bl4e780hnpllp" path="res://PavingStones146_1K-JPG_Color.jpg" id="PavingStonesTexture"]
 [ext_resource type="Texture2D" uid="uid://cnmvkdgsqgpch" path="res://Rock037_1K-JPG_Color.jpg" id="RockTexture"]
 
@@ -224,3 +225,7 @@ environment = SubResource("Ambiente")
 
 [node name="Meta" parent="." instance=ExtResource("GoalScene")]
 position = Vector3(0, 2, -12.8)
+
+[node name="Moneda" parent="." instance=ExtResource("CoinScene")]
+position = Vector3(-3.8, 0.8, -13.5)
+nivel = 1

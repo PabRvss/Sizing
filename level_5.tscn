@@ -8,6 +8,7 @@
 
 [node name="main" type="Node3D" unique_id=212841647]
 script = ExtResource("1_controller")
+nivel_numero = 5
 es_nivel_final = true
 
 [node name="Environment" parent="." unique_id=371664902 instance=ExtResource("2_env")]
@@ -51,6 +52,12 @@ theme_override_constants/separation = 10
 [node name="Title" type="Label" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=815509290]
 layout_mode = 2
 text = "Nivel Superado"
+horizontal_alignment = 1
+
+[node name="CollectibleLabel" type="Label" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1982736451]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "🪙 Coleccionable: No encontrado"
 horizontal_alignment = 1
 
 [node name="NextLevelButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=395039676]

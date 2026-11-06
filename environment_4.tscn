@@ -1,6 +1,7 @@
-[gd_scene load_steps=39 format=3]
+[gd_scene load_steps=40 format=3]
 
 [ext_resource type="PackedScene" path="res://goal.tscn" id="GoalScene"]
+[ext_resource type="PackedScene" path="res://coin.tscn" id="CoinScene"]
 
 [ext_resource type="Texture2D" uid="uid://bl4e780hnpllp" path="res://PavingStones146_1K-JPG_Color.jpg" id="PavingStonesTexture"]
 
@@ -283,6 +284,10 @@ shape = SubResource("Shape_ParedSalida_Techo")
 
 [node name="Meta" parent="." instance=ExtResource("GoalScene")]
 position = Vector3(0, 3.4, -6.5)
+
+[node name="Moneda" parent="." instance=ExtResource("CoinScene")]
+position = Vector3(-3.8, 3.8, -6.8)
+nivel = 4
 
 [node name="Luz" type="DirectionalLight3D" parent="."]
 rotation = Vector3(-0.96, -0.44, 0)
