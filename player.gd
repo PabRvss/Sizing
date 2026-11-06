@@ -176,6 +176,11 @@ func _actualizar_animacion() -> void:
 		var offset_adelante: Vector3 = -malla.global_transform.basis.z * (0.14 * player_size)
 		soporte_rifle.global_position = mano_global + offset_adelante
 		soporte_rifle.rotation.y = malla.rotation.y
+		var cam = get_viewport().get_camera_3d()
+		if cam and cam.get("primera_persona") == true:
+			soporte_rifle.rotation.x = cam.rotation.x
+		else:
+			soporte_rifle.rotation.x = 0.0
 
 func _unhandled_input(_event):
 	if muerto or nivel_completado:

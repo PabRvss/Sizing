@@ -107,7 +107,8 @@ bbcode_enabled = true
 text = "[center]
 [b]WASD:[/b] Moverse (orientado a la cámara)
 [b]Espacio:[/b] Saltar (la altura aumenta según tamaño)
-[b]Flechas ← y →:[/b] Rotar cámara (horizontal)
+[b]Flechas ← y →:[/b] Rotar cámara horizontal
+[b]Flechas ↑ y ↓:[/b] Mirar arriba y abajo (1ª persona)
 [b]C:[/b] Cambiar vista (1ª / 3ª persona)
 [b]Mantener Clic:[/b] Apuntar y proyectar rayo láser
 [b]E:[/b] Intercambio rápido con caja cercana
