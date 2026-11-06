@@ -30,6 +30,7 @@ var mano_derecha: int = -1
 func _ready():
 	warning_label.text = ""
 	_set_tamano_player(tamano_inicial)
+	_aplicar_color_robot(robot, Color(0.62, 0.62, 0.64, 1.0))
 	esqueleto = _buscar_esqueleto(robot)
 	if esqueleto:
 		mano_derecha = esqueleto.find_bone("hand.R")
@@ -41,6 +42,21 @@ func _ready():
 					animaciones[nombre] = pista
 					if nombre != "Jump":
 						animador.get_animation(pista).loop_mode = Animation.LOOP_LINEAR
+		# Mantener la postura de sostener el rifle en brazos durante Walk y Jump
+		if animaciones.has("Idle"):
+			var anim_idle: Animation = animador.get_animation(animaciones["Idle"])
+			for nombre in ["Walk", "Jump"]:
+				if animaciones.has(nombre):
+					var anim: Animation = animador.get_animation(animaciones[nombre])
+					for t in range(anim.get_track_count()):
+						var path_str := str(anim.track_get_path(t))
+						var bone_name := path_str.get_slice(":", 1).to_lower()
+						if "arm" in bone_name or "hand" in bone_name:
+							var idle_t := anim_idle.find_track(anim.track_get_path(t), anim.track_get_type(t))
+							if idle_t != -1 and anim_idle.track_get_key_count(idle_t) > 0:
+								while anim.track_get_key_count(t) > 0:
+									anim.track_remove_key(t, 0)
+								anim.track_insert_key(t, 0.0, anim_idle.track_get_key_value(idle_t, 0))
 		_reproducir_animacion("Idle")
 	for caja in get_tree().get_nodes_in_group("swappable"):
 		var s = float(caja.get_meta("size", 1.0))
@@ -57,7 +73,10 @@ func _physics_process(delta):
 	var cam = get_viewport().get_camera_3d()
 	var adelante = Vector3.FORWARD
 	var derecha = Vector3.RIGHT
+	var es_primera_persona := false
 	if cam:
+		if cam.get("primera_persona") == true:
+			es_primera_persona = true
 		adelante = -cam.global_transform.basis.z
 		adelante.y = 0
 		adelante = adelante.normalized()
@@ -78,6 +97,14 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0.0, 25.0 * delta)
 		velocity.z = move_toward(velocity.z, 0.0, 25.0 * delta)
 
+	if es_primera_persona and cam:
+		var dir_cam: Vector3 = -cam.global_transform.basis.z
+		dir_cam.y = 0.0
+		if dir_cam != Vector3.ZERO:
+			malla.rotation.y = atan2(-dir_cam.x, -dir_cam.z)
+	elif direccion != Vector3.ZERO:
+		malla.rotation.y = lerp_angle(malla.rotation.y, atan2(-direccion.x, -direccion.z), 15.0 * delta)
+
 	if is_on_floor():
 		if velocity.y < 0:
 			velocity.y = 0
@@ -95,6 +122,20 @@ func _process(delta):
 		tiempo_aviso -= delta
 		if tiempo_aviso <= 0:
 			warning_label.text = ""
+
+func _aplicar_color_robot(nodo: Node, color_gris: Color) -> void:
+	if nodo is MeshInstance3D:
+		var mat_existente = nodo.get_active_material(0)
+		var mat: StandardMaterial3D
+		if mat_existente is StandardMaterial3D:
+			mat = mat_existente.duplicate() as StandardMaterial3D
+		else:
+			mat = StandardMaterial3D.new()
+		mat.albedo_color = color_gris
+		mat.roughness = 0.4
+		nodo.set_surface_override_material(0, mat)
+	for hijo in nodo.get_children():
+		_aplicar_color_robot(hijo, color_gris)
 
 func _buscar_esqueleto(nodo: Node) -> Skeleton3D:
 	if nodo is Skeleton3D:
@@ -131,8 +172,10 @@ func _actualizar_animacion() -> void:
 	else:
 		_reproducir_animacion("Idle")
 	if esqueleto and mano_derecha >= 0:
-		var mano_global := esqueleto.to_global(esqueleto.get_bone_global_pose(mano_derecha).origin)
-		soporte_rifle.global_position = mano_global + Vector3(0.0, 0.0, -0.14 * player_size)
+		var mano_global: Vector3 = esqueleto.to_global(esqueleto.get_bone_global_pose(mano_derecha).origin)
+		var offset_adelante: Vector3 = -malla.global_transform.basis.z * (0.14 * player_size)
+		soporte_rifle.global_position = mano_global + offset_adelante
+		soporte_rifle.rotation.y = malla.rotation.y
 
 func _unhandled_input(_event):
 	if muerto or nivel_completado:

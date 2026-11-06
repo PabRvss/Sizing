@@ -1,68 +1,66 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene format=3 uid="uid://f2fki541pukj"]
 
-[ext_resource type="Script" path="res://level_controller.gd" id="1_controller"]
+[ext_resource type="Script" uid="uid://0bckxwh4xkrk" path="res://level_controller.gd" id="1_controller"]
 [ext_resource type="PackedScene" path="res://environment_5.tscn" id="2_env"]
 [ext_resource type="PackedScene" path="res://player.tscn" id="3_player"]
-[ext_resource type="Script" path="res://camera_3d.gd" id="4_camera"]
+[ext_resource type="Script" uid="uid://cehkr3gkfakdv" path="res://camera_3d.gd" id="4_camera"]
 [ext_resource type="PackedScene" path="res://PauseMenu.tscn" id="5_pause"]
 
-[node name="main" type="Node3D"]
+[node name="main" type="Node3D" unique_id=212841647]
 script = ExtResource("1_controller")
 es_nivel_final = true
-menu_principal = "res://MainMenu.tscn"
 
-[node name="Environment" parent="." instance=ExtResource("2_env")]
+[node name="Environment" parent="." unique_id=371664902 instance=ExtResource("2_env")]
 
-[node name="Player" parent="." instance=ExtResource("3_player")]
+[node name="Player" parent="." unique_id=1729337968 instance=ExtResource("3_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 6.7)
-tamano_inicial = 1.0
 lava_kill_y = -1.5
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=154981070]
 transform = Transform3D(0.881958, -0.383022, 0.275064, 0, 0.582697, 0.812689, -0.471329, -0.71676, 0.513914, 4.6, 14.5, 10.1)
 current = true
 fov = 55.0
 script = ExtResource("4_camera")
 
-[node name="PauseMenu" parent="." instance=ExtResource("5_pause")]
+[node name="PauseMenu" parent="." unique_id=160867942 instance=ExtResource("5_pause")]
 
-[node name="VictoryUI" type="CanvasLayer" parent="."]
+[node name="VictoryUI" type="CanvasLayer" parent="." unique_id=1890811086]
 
-[node name="CenterContainer" type="CenterContainer" parent="VictoryUI"]
+[node name="CenterContainer" type="CenterContainer" parent="VictoryUI" unique_id=1993265284]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="VictoryUI/CenterContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VictoryUI/CenterContainer" unique_id=1570592130]
 visible = false
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VictoryUI/CenterContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VictoryUI/CenterContainer/PanelContainer" unique_id=473948624]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer" unique_id=1627278059]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Title" type="Label" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=815509290]
 layout_mode = 2
 text = "Nivel Superado"
 horizontal_alignment = 1
 
-[node name="NextLevelButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="NextLevelButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=395039676]
 layout_mode = 2
 text = "Siguiente Nivel"
 
-[node name="RetryButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="RetryButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1674535354]
 layout_mode = 2
 text = "Reiniciar"
 
-[node name="MainMenuButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="MainMenuButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=889210578]
 layout_mode = 2
 text = "Volver al Menú"

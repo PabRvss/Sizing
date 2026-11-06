@@ -40,6 +40,7 @@ theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="MenuContainer" unique_id=460215588]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Sizing"
 horizontal_alignment = 1
 
@@ -106,7 +107,8 @@ bbcode_enabled = true
 text = "[center]
 [b]WASD:[/b] Moverse (orientado a la cámara)
 [b]Espacio:[/b] Saltar (la altura aumenta según tamaño)
-[b]Flechas ← y →:[/b] Rotar vista aérea
+[b]Flechas ← y →:[/b] Rotar cámara (horizontal)
+[b]C:[/b] Cambiar vista (1ª / 3ª persona)
 [b]Mantener Clic:[/b] Apuntar y proyectar rayo láser
 [b]E:[/b] Intercambio rápido con caja cercana
 [b]R:[/b] Reiniciar nivel
