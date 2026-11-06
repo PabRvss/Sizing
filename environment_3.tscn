@@ -82,10 +82,10 @@ size = Vector3(11, 6, 0.5)
 size = Vector3(11, 6, 0.5)
 
 [sub_resource type="BoxMesh" id="Mesh_TunelIzq"]
-size = Vector3(4.0, 6, 1.6)
+size = Vector3(4.0, 2.0, 1.2)
 
 [sub_resource type="BoxShape3D" id="Shape_TunelIzq"]
-size = Vector3(4.0, 6, 1.6)
+size = Vector3(4.0, 2.0, 1.2)
 
 [sub_resource type="BoxMesh" id="Mesh_TunelDer"]
 size = Vector3(4.0, 6, 1.6)
@@ -167,7 +167,7 @@ material_override = SubResource("Mat_wall")
 shape = SubResource("Shape_ParedFinal_7_19")
 
 [node name="TunelIzq" type="StaticBody3D" parent="."]
-position = Vector3(-3.0, 3, 0)
+position = Vector3(-3.0, 1.0, 0)
 
 [node name="Malla" type="MeshInstance3D" parent="TunelIzq"]
 mesh = SubResource("Mesh_TunelIzq")
@@ -238,7 +238,7 @@ shape = SubResource("Shape_SalidaElevada")
 position = Vector3(0, 1.9, -16)
 
 [node name="Moneda" parent="." instance=ExtResource("CoinScene")]
-position = Vector3(-3, 6.45, 0)
+position = Vector3(-3, 2.5, 0)
 nivel = 3
 
 [node name="Luz" type="DirectionalLight3D" parent="."]

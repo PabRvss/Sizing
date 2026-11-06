@@ -140,7 +140,7 @@ def build():
     level = Level()
     level.platform('Suelo', 0, -1, 10, 16)
     level.walls(7, -9)
-    size_puzzle(level, 1)
+    size_puzzle(level, 1, barrier_height=3.5)
     level.save(4)
     scene(4, 2.8, 2, spawn_x=2)
 

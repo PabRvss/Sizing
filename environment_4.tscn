@@ -82,10 +82,10 @@ size = Vector3(11, 6, 0.5)
 size = Vector3(11, 6, 0.5)
 
 [sub_resource type="BoxMesh" id="Mesh_PasoNormal"]
-size = Vector3(10, 0.55, 1.2)
+size = Vector3(10, 3.5, 1.2)
 
 [sub_resource type="BoxShape3D" id="Shape_PasoNormal"]
-size = Vector3(10, 0.55, 1.2)
+size = Vector3(10, 3.5, 1.2)
 
 [sub_resource type="BoxMesh" id="Mesh_CajaNormal"]
 size = Vector3(1.25, 1.25, 1.25)
@@ -185,7 +185,7 @@ material_override = SubResource("Mat_wall")
 shape = SubResource("Shape_ParedFinal_7_9")
 
 [node name="PasoNormal" type="StaticBody3D" parent="."]
-position = Vector3(0, 2.3249999999999997, 1)
+position = Vector3(0, 3.8, 1)
 
 [node name="Malla" type="MeshInstance3D" parent="PasoNormal"]
 mesh = SubResource("Mesh_PasoNormal")
