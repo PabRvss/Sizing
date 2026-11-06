@@ -13,16 +13,20 @@ func _ready() -> void:
 	# Distancia cercana reducida para evitar ver dentro de las texturas/mallas al acercarse
 	near = 0.01
 
+func _alternar_vista() -> void:
+	primera_persona = not primera_persona
+	if primera_persona:
+		angulo_pitch = 0.0
+	elif target:
+		var offset := Vector3(sin(angulo_y) * distancia, altura, cos(angulo_y) * distancia)
+		global_position = target.global_position + offset
+
 func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("toggle_camera_view"):
-		primera_persona = not primera_persona
-		if primera_persona:
-			angulo_pitch = 0.0
+		_alternar_vista()
 	elif event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode == KEY_C or event.keycode == KEY_C:
-			primera_persona = not primera_persona
-			if primera_persona:
-				angulo_pitch = 0.0
+			_alternar_vista()
 
 func _physics_process(delta):
 	if not target:
@@ -51,33 +55,23 @@ func _physics_process(delta):
 		var pos_cabeza: Vector3 = target.global_position + Vector3(0.0, 1.25 * p_size, 0.0)
 
 		# Comprobar colisión hacia el frente para evitar atravesar paredes o cajas
-		var dist_adelante: float = 0.18 * p_size
+		var dist_adelante: float = 0.30 * p_size
 		var espacio = get_world_3d().direct_space_state
-		var check_dest: Vector3 = pos_cabeza + dir_frente * (dist_adelante + 0.15)
+		var check_dest: Vector3 = pos_cabeza + dir_frente * (dist_adelante + 0.1)
 		var rayo = PhysicsRayQueryParameters3D.create(pos_cabeza, check_dest)
 		rayo.exclude = [target.get_rid()]
 		rayo.collision_mask = 1 | 2
 		var hit = espacio.intersect_ray(rayo)
 		if not hit.is_empty():
 			var hit_dist: float = pos_cabeza.distance_to(hit.position)
-			dist_adelante = minf(dist_adelante, maxf(0.0, hit_dist - 0.06))
+			dist_adelante = minf(dist_adelante, maxf(0.0, hit_dist - 0.05))
 
 		var pos_ojos: Vector3 = pos_cabeza + dir_frente_h * dist_adelante
 		global_position = pos_ojos
 		look_at(pos_ojos + dir_frente, Vector3.UP)
 	else:
 		var offset := Vector3(sin(angulo_y) * distancia, altura, cos(angulo_y) * distancia)
-		var pos_ideal: Vector3 = target.global_position + offset
-		var espacio = get_world_3d().direct_space_state
-		var origen_3p: Vector3 = target.global_position + Vector3(0.0, 1.0, 0.0)
-		var rayo_3p = PhysicsRayQueryParameters3D.create(origen_3p, pos_ideal)
-		rayo_3p.exclude = [target.get_rid()]
-		rayo_3p.collision_mask = 1 | 2
-		var hit_3p = espacio.intersect_ray(rayo_3p)
-		if not hit_3p.is_empty():
-			var dir_to_cam: Vector3 = (pos_ideal - origen_3p).normalized()
-			pos_ideal = hit_3p.position - dir_to_cam * 0.15
-		global_position = global_position.lerp(pos_ideal, 6.0 * delta)
+		global_position = global_position.lerp(target.global_position + offset, 6.0 * delta)
 		look_at(target.global_position + Vector3(0, 0.5, 0), Vector3.UP)
 
 

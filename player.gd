@@ -77,6 +77,7 @@ func _physics_process(delta):
 	if cam:
 		if cam.get("primera_persona") == true:
 			es_primera_persona = true
+		malla.visible = not es_primera_persona
 		adelante = -cam.global_transform.basis.z
 		adelante.y = 0
 		adelante = adelante.normalized()
