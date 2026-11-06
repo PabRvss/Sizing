@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b4d84jcsrsjij"]
 
 [ext_resource type="Script" uid="uid://dvchlo0jhrfw1" path="res://main_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" uid="uid://drmjmxs3ucmow" path="res://Portada.jpg" id="2_portada"]
 
 [node name="MainMenu" type="Control" unique_id=1854630193]
 layout_mode = 3
@@ -11,14 +12,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
-[node name="Background" type="ColorRect" parent="." unique_id=403621941]
+[node name="Background" type="TextureRect" parent="." unique_id=403621941]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.441365, 0.441365, 0.441365, 1)
+texture = ExtResource("2_portada")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="MenuContainer" type="VBoxContainer" parent="." unique_id=158296740]
 layout_mode = 1

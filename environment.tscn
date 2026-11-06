@@ -1,11 +1,15 @@
-[gd_scene load_steps=25 format=3]
+[gd_scene load_steps=27 format=3]
 
 [ext_resource type="PackedScene" path="res://goal.tscn" id="GoalScene"]
+[ext_resource type="Texture2D" uid="uid://bl4e780hnpllp" path="res://PavingStones146_1K-JPG_Color.jpg" id="PavingStonesTexture"]
+[ext_resource type="Texture2D" uid="uid://cnmvkdgsqgpch" path="res://Rock037_1K-JPG_Color.jpg" id="RockTexture"]
 
 [sub_resource type="StandardMaterial3D" id="Mat_Suelo"]
-albedo_color = Color(0.2, 0.254902, 0.333333, 1)
-metallic = 0.08
-roughness = 0.72
+albedo_color = Color(1, 1, 1, 1)
+roughness = 0.8
+albedo_texture = ExtResource("PavingStonesTexture")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="Mesh_Suelo"]
 size = Vector3(10, 0.6, 21)
@@ -25,9 +29,11 @@ size = Vector3(10, 2.2, 1.3)
 size = Vector3(10, 2.2, 1.3)
 
 [sub_resource type="StandardMaterial3D" id="Mat_PlataformaSalida"]
-albedo_color = Color(0.235294, 0.788235, 0.607843, 1)
-metallic = 0.08
-roughness = 0.72
+albedo_color = Color(1, 1, 1, 1)
+roughness = 0.8
+albedo_texture = ExtResource("PavingStonesTexture")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="Mesh_PlataformaSalida"]
 size = Vector3(6, 0.6, 4.6)
@@ -36,9 +42,11 @@ size = Vector3(6, 0.6, 4.6)
 size = Vector3(6, 0.6, 4.6)
 
 [sub_resource type="StandardMaterial3D" id="Mat_Pared"]
-albedo_color = Color(0.14902, 0.211765, 0.290196, 1)
-metallic = 0.08
-roughness = 0.72
+albedo_color = Color(0.85, 0.85, 0.9, 1)
+roughness = 0.8
+albedo_texture = ExtResource("PavingStonesTexture")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="Mesh_ParedLateral"]
 size = Vector3(0.5, 6, 21)
@@ -60,8 +68,10 @@ size = Vector3(11, 8, 0.5)
 
 [sub_resource type="StandardMaterial3D" id="Mat_CajaPequena"]
 albedo_color = Color(0.94902, 0.839216, 0.427451, 1)
-metallic = 0.08
-roughness = 0.72
+roughness = 0.8
+albedo_texture = ExtResource("RockTexture")
+uv1_scale = Vector3(1, 1, 1)
+uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="Mesh_CajaPequena"]
 size = Vector3(1.25, 1.25, 1.25)
@@ -71,8 +81,10 @@ size = Vector3(1.25, 1.25, 1.25)
 
 [sub_resource type="StandardMaterial3D" id="Mat_CajaGrande"]
 albedo_color = Color(0.545098, 0.54902, 0.964706, 1)
-metallic = 0.08
-roughness = 0.72
+roughness = 0.8
+albedo_texture = ExtResource("RockTexture")
+uv1_scale = Vector3(1, 1, 1)
+uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="Mesh_CajaGrande"]
 size = Vector3(1.25, 1.25, 1.25)

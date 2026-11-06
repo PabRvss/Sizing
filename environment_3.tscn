@@ -1,14 +1,24 @@
-[gd_scene load_steps=34 format=3]
+[gd_scene load_steps=33 format=3]
 
 [ext_resource type="PackedScene" path="res://goal.tscn" id="GoalScene"]
 
+[ext_resource type="Texture2D" uid="uid://bl4e780hnpllp" path="res://PavingStones146_1K-JPG_Color.jpg" id="PavingStonesTexture"]
+
+[ext_resource type="Texture2D" uid="uid://cnmvkdgsqgpch" path="res://Rock037_1K-JPG_Color.jpg" id="RockTexture"]
+
 [sub_resource type="StandardMaterial3D" id="Mat_floor"]
-albedo_color = Color(0.22, 0.28, 0.36, 1)
+albedo_color = Color(1.0, 1.0, 1.0, 1)
 roughness = 0.8
+albedo_texture = ExtResource("PavingStonesTexture")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="Mat_wall"]
-albedo_color = Color(0.16, 0.21, 0.29, 1)
+albedo_color = Color(0.85, 0.85, 0.9, 1)
 roughness = 0.8
+albedo_texture = ExtResource("PavingStonesTexture")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="Mat_barrier"]
 albedo_color = Color(0.9, 0.52, 0.34, 1)
@@ -17,14 +27,23 @@ roughness = 0.8
 [sub_resource type="StandardMaterial3D" id="Mat_small"]
 albedo_color = Color(0.95, 0.82, 0.34, 1)
 roughness = 0.8
+albedo_texture = ExtResource("RockTexture")
+uv1_scale = Vector3(1, 1, 1)
+uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="Mat_normal"]
 albedo_color = Color(0.59, 0.56, 0.95, 1)
 roughness = 0.8
+albedo_texture = ExtResource("RockTexture")
+uv1_scale = Vector3(1, 1, 1)
+uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="Mat_large"]
 albedo_color = Color(0.59, 0.56, 0.95, 1)
 roughness = 0.8
+albedo_texture = ExtResource("RockTexture")
+uv1_scale = Vector3(1, 1, 1)
+uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="Mat_goal"]
 albedo_color = Color(0.24, 0.8, 0.59, 1)
@@ -43,22 +62,22 @@ size = Vector3(10, 0.6, 26)
 [sub_resource type="BoxShape3D" id="Shape_Suelo"]
 size = Vector3(10, 0.6, 26)
 
-[sub_resource type="BoxMesh" id="Mesh_ParedIzq"]
+[sub_resource type="BoxMesh" id="Mesh_ParedIzq_7_19"]
 size = Vector3(0.5, 6, 26)
 
-[sub_resource type="BoxShape3D" id="Shape_ParedIzq"]
+[sub_resource type="BoxShape3D" id="Shape_ParedIzq_7_19"]
 size = Vector3(0.5, 6, 26)
 
-[sub_resource type="BoxMesh" id="Mesh_ParedDer"]
+[sub_resource type="BoxMesh" id="Mesh_ParedDer_7_19"]
 size = Vector3(0.5, 6, 26)
 
-[sub_resource type="BoxShape3D" id="Shape_ParedDer"]
+[sub_resource type="BoxShape3D" id="Shape_ParedDer_7_19"]
 size = Vector3(0.5, 6, 26)
 
-[sub_resource type="BoxMesh" id="Mesh_ParedFinal"]
+[sub_resource type="BoxMesh" id="Mesh_ParedFinal_7_19"]
 size = Vector3(11, 6, 0.5)
 
-[sub_resource type="BoxShape3D" id="Shape_ParedFinal"]
+[sub_resource type="BoxShape3D" id="Shape_ParedFinal_7_19"]
 size = Vector3(11, 6, 0.5)
 
 [sub_resource type="BoxMesh" id="Mesh_TunelIzq"]
@@ -97,15 +116,6 @@ size = Vector3(10, 0.6, 6)
 [sub_resource type="BoxShape3D" id="Shape_SalidaElevada"]
 size = Vector3(10, 0.6, 6)
 
-[sub_resource type="BoxMesh" id="Mesh_MarcaMeta"]
-size = Vector3(3, 0.05, 2)
-
-[sub_resource type="BoxShape3D" id="Shape_MarcaMeta"]
-size = Vector3(3, 0.05, 2)
-
-[sub_resource type="BoxShape3D" id="GoalShape"]
-size = Vector3(3, 1.5, 2)
-
 [sub_resource type="Environment" id="Ambiente"]
 background_mode = 1
 background_color = Color(0.06, 0.09, 0.15, 1)
@@ -125,35 +135,35 @@ material_override = SubResource("Mat_floor")
 [node name="Colision" type="CollisionShape3D" parent="Suelo"]
 shape = SubResource("Shape_Suelo")
 
-[node name="ParedIzq" type="StaticBody3D" parent="."]
+[node name="ParedIzq_7_19" type="StaticBody3D" parent="."]
 position = Vector3(-5.25, 3, -6.0)
 
-[node name="Malla" type="MeshInstance3D" parent="ParedIzq"]
-mesh = SubResource("Mesh_ParedIzq")
+[node name="Malla" type="MeshInstance3D" parent="ParedIzq_7_19"]
+mesh = SubResource("Mesh_ParedIzq_7_19")
 material_override = SubResource("Mat_wall")
 
-[node name="Colision" type="CollisionShape3D" parent="ParedIzq"]
-shape = SubResource("Shape_ParedIzq")
+[node name="Colision" type="CollisionShape3D" parent="ParedIzq_7_19"]
+shape = SubResource("Shape_ParedIzq_7_19")
 
-[node name="ParedDer" type="StaticBody3D" parent="."]
+[node name="ParedDer_7_19" type="StaticBody3D" parent="."]
 position = Vector3(5.25, 3, -6.0)
 
-[node name="Malla" type="MeshInstance3D" parent="ParedDer"]
-mesh = SubResource("Mesh_ParedDer")
+[node name="Malla" type="MeshInstance3D" parent="ParedDer_7_19"]
+mesh = SubResource("Mesh_ParedDer_7_19")
 material_override = SubResource("Mat_wall")
 
-[node name="Colision" type="CollisionShape3D" parent="ParedDer"]
-shape = SubResource("Shape_ParedDer")
+[node name="Colision" type="CollisionShape3D" parent="ParedDer_7_19"]
+shape = SubResource("Shape_ParedDer_7_19")
 
-[node name="ParedFinal" type="StaticBody3D" parent="."]
+[node name="ParedFinal_7_19" type="StaticBody3D" parent="."]
 position = Vector3(0, 3, -19.25)
 
-[node name="Malla" type="MeshInstance3D" parent="ParedFinal"]
-mesh = SubResource("Mesh_ParedFinal")
+[node name="Malla" type="MeshInstance3D" parent="ParedFinal_7_19"]
+mesh = SubResource("Mesh_ParedFinal_7_19")
 material_override = SubResource("Mat_wall")
 
-[node name="Colision" type="CollisionShape3D" parent="ParedFinal"]
-shape = SubResource("Shape_ParedFinal")
+[node name="Colision" type="CollisionShape3D" parent="ParedFinal_7_19"]
+shape = SubResource("Shape_ParedFinal_7_19")
 
 [node name="TunelIzq" type="StaticBody3D" parent="."]
 position = Vector3(-3.0, 3, 0)
@@ -223,6 +233,9 @@ material_override = SubResource("Mat_floor")
 [node name="Colision" type="CollisionShape3D" parent="SalidaElevada"]
 shape = SubResource("Shape_SalidaElevada")
 
+[node name="Meta" parent="." instance=ExtResource("GoalScene")]
+position = Vector3(0, 1.9, -16)
+
 [node name="Luz" type="DirectionalLight3D" parent="."]
 rotation = Vector3(-0.96, -0.44, 0)
 light_energy = 1.4
@@ -231,6 +244,3 @@ directional_shadow_mode = 2
 
 [node name="Ambiente" type="WorldEnvironment" parent="."]
 environment = SubResource("Ambiente")
-
-[node name="Meta" parent="." instance=ExtResource("GoalScene")]
-position = Vector3(0, 1.9, -16)

@@ -5,7 +5,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 ONLY_LEVELS = {int(value) for value in sys.argv[1:]} if __name__ == '__main__' and len(sys.argv) > 1 else {3, 4, 5}
 COLORS = {
-    'floor': (0.22, 0.28, 0.36), 'wall': (0.16, 0.21, 0.29),
+    'floor': (1.0, 1.0, 1.0), 'wall': (0.85, 0.85, 0.9),
     'barrier': (0.9, 0.52, 0.34), 'small': (0.95, 0.82, 0.34),
     'normal': (0.59, 0.56, 0.95), 'large': (0.59, 0.56, 0.95),
     'goal': (0.24, 0.8, 0.59), 'lava': (1.0, 0.22, 0.03),
@@ -21,10 +21,18 @@ class Level:
         self.resources = []
         self.nodes = ['[node name="Environment" type="Node3D"]']
         for name, color in COLORS.items():
+            extra = ''
+            if name in ('floor', 'wall'):
+                extra = '\nalbedo_texture = ExtResource("PavingStonesTexture")\nuv1_scale = Vector3(0.5, 0.5, 0.5)\nuv1_triplanar = true'
+            elif name in ('small', 'normal', 'large'):
+                extra = '\nalbedo_texture = ExtResource("RockTexture")\nuv1_scale = Vector3(1, 1, 1)\nuv1_triplanar = true'
+            elif name == 'lava':
+                extra = '\nemission_enabled = true\nemission = Color(0.8, 0.12, 0.01, 1)\nemission_energy_multiplier = 0.5'
+
             self.resources.append(
                 f'[sub_resource type="StandardMaterial3D" id="Mat_{name}"]\n'
                 f'albedo_color = Color({color[0]}, {color[1]}, {color[2]}, 1)\nroughness = 0.8'
-                + ('\nemission_enabled = true\nemission = Color(0.8, 0.12, 0.01, 1)\nemission_energy_multiplier = 0.5' if name == 'lava' else '')
+                + extra
             )
 
     def block(self, name, position, size, material='floor', swap=None):
@@ -74,8 +82,12 @@ class Level:
             '[node name="Luz" type="DirectionalLight3D" parent="."]\nrotation = Vector3(-0.96, -0.44, 0)\nlight_energy = 1.4\nshadow_enabled = true\ndirectional_shadow_mode = 2',
             '[node name="Ambiente" type="WorldEnvironment" parent="."]\nenvironment = SubResource("Ambiente")',
         ])
-        shared_goal = '[ext_resource type="PackedScene" path="res://goal.tscn" id="GoalScene"]'
-        text = f'[gd_scene load_steps={len(self.resources) + 2} format=3]\n\n' + '\n\n'.join([shared_goal] + self.resources + self.nodes) + '\n'
+        ext_resources = [
+            '[ext_resource type="PackedScene" path="res://goal.tscn" id="GoalScene"]',
+            '[ext_resource type="Texture2D" uid="uid://bl4e780hnpllp" path="res://PavingStones146_1K-JPG_Color.jpg" id="PavingStonesTexture"]',
+            '[ext_resource type="Texture2D" uid="uid://cnmvkdgsqgpch" path="res://Rock037_1K-JPG_Color.jpg" id="RockTexture"]'
+        ]
+        text = f'[gd_scene load_steps={len(self.resources) + len(ext_resources) + 1} format=3]\n\n' + '\n\n'.join(ext_resources + self.resources + self.nodes) + '\n'
         (ROOT / f'environment_{number}.tscn').write_text(text, encoding='utf-8')
 
 
@@ -90,18 +102,25 @@ def scene(number, spawn, size=1, spawn_x=0):
     (ROOT / f'level_{number}.tscn').write_text(text, encoding='utf-8')
 
 
-def size_puzzle(level, gate_z, top=0, with_goal=True):
-    # La caja está en el carril derecho, visible desde la entrada.
-    # Los apoyos forman una escalera lateral de 0.8 -> 1.6 -> caja 2.5 -> salida 3.4.
-    # El techo impide entrar con tamaño 2; tamaño 1 cabe con 0.25 de margen.
-    # Viga delgada: la cámara puede ver las cajas por encima. Su cara superior
-    # a 2.6 supera el salto máximo del jugador grande (~2.33).
-    level.block('PasoNormal', (0, top + 2.325, gate_z), (10, 0.55, 1.2), 'barrier')
+def size_puzzle(level, gate_z, top=0, with_goal=True, barrier_height=0.55):
+    # Paso con barrera naranja: su base queda siempre a top + 2.05 (permite tamaño 1 con margen, bloquea tamaño 2)
+    pos_y = top + 2.05 + barrier_height / 2.0
+    level.block('PasoNormal', (0, pos_y, gate_z), (10, barrier_height, 1.2), 'barrier')
     level.box('CajaNormal', -2.8, gate_z + 2.5, 1, top)
     level.block('ApoyoBajo', (-2, top + 0.4, gate_z - 2.6), (2, 0.8, 2))
     level.block('ApoyoAlto', (0, top + 0.8, gate_z - 3), (1.4, 1.6, 2))
     level.box('CajaEscalon', 2, gate_z - 3, 0.5, top)
     level.platform('SalidaElevada', 0, gate_z - 7, 10, 4, top + 3.4)
+
+    # Pared con agujero en SalidaElevada (antes de la meta):
+    # La apertura mide 5.0 de ancho y 2.2 de alto sobre la plataforma (top + 3.4).
+    # Tamaño normal (1.8 de alto) pasa comodamente; el tamaño grande (3.6) no cabe.
+    plat_top = top + 3.4
+    zw = gate_z - 6.2
+    level.block('ParedSalida_Izq', (-3.75, plat_top + 2.25, zw), (2.5, 4.5, 0.3), 'wall')
+    level.block('ParedSalida_Der', (3.75, plat_top + 2.25, zw), (2.5, 4.5, 0.3), 'wall')
+    level.block('ParedSalida_Techo', (0, plat_top + 3.35, zw), (5.0, 2.3, 0.3), 'wall')
+
     if with_goal:
         level.goal(0, gate_z - 7.5, top + 3.4)
 
@@ -140,7 +159,8 @@ def build():
     level.walls(-8, -22, base=1.7)
     # Abrir el extremo del corredor para saltar desde la salida a la isla C.
     level.nodes = [node for node in level.nodes if 'ParedFinal' not in node]
-    size_puzzle(level, -12, 1.7, with_goal=False)
+    # Barrera naranja más alta en nivel 5 (barrier_height=2.2)
+    size_puzzle(level, -12, 1.7, with_goal=False, barrier_height=2.2)
     # Salida: borde -21; isla final: borde -23. Salto de 2 unidades, mismo nivel.
     level.platform('IslaC', 0, -25.5, 8, 5, 5.1)
     level.goal(0, -25.5, 5.1)

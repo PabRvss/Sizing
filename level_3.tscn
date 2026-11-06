@@ -66,4 +66,3 @@ text = "Reiniciar"
 [node name="MainMenuButton" type="Button" parent="VictoryUI/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Volver al Menú"
-

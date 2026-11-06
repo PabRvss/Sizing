@@ -1,14 +1,24 @@
-[gd_scene load_steps=53 format=3]
+[gd_scene load_steps=61 format=3]
 
 [ext_resource type="PackedScene" path="res://goal.tscn" id="GoalScene"]
 
+[ext_resource type="Texture2D" uid="uid://bl4e780hnpllp" path="res://PavingStones146_1K-JPG_Color.jpg" id="PavingStonesTexture"]
+
+[ext_resource type="Texture2D" uid="uid://cnmvkdgsqgpch" path="res://Rock037_1K-JPG_Color.jpg" id="RockTexture"]
+
 [sub_resource type="StandardMaterial3D" id="Mat_floor"]
-albedo_color = Color(0.22, 0.28, 0.36, 1)
+albedo_color = Color(1.0, 1.0, 1.0, 1)
 roughness = 0.8
+albedo_texture = ExtResource("PavingStonesTexture")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="Mat_wall"]
-albedo_color = Color(0.16, 0.21, 0.29, 1)
+albedo_color = Color(0.85, 0.85, 0.9, 1)
 roughness = 0.8
+albedo_texture = ExtResource("PavingStonesTexture")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="Mat_barrier"]
 albedo_color = Color(0.9, 0.52, 0.34, 1)
@@ -17,14 +27,23 @@ roughness = 0.8
 [sub_resource type="StandardMaterial3D" id="Mat_small"]
 albedo_color = Color(0.95, 0.82, 0.34, 1)
 roughness = 0.8
+albedo_texture = ExtResource("RockTexture")
+uv1_scale = Vector3(1, 1, 1)
+uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="Mat_normal"]
 albedo_color = Color(0.59, 0.56, 0.95, 1)
 roughness = 0.8
+albedo_texture = ExtResource("RockTexture")
+uv1_scale = Vector3(1, 1, 1)
+uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="Mat_large"]
 albedo_color = Color(0.59, 0.56, 0.95, 1)
 roughness = 0.8
+albedo_texture = ExtResource("RockTexture")
+uv1_scale = Vector3(1, 1, 1)
+uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="Mat_goal"]
 albedo_color = Color(0.24, 0.8, 0.59, 1)
@@ -122,10 +141,10 @@ size = Vector3(11, 6, 0.5)
 size = Vector3(11, 6, 0.5)
 
 [sub_resource type="BoxMesh" id="Mesh_PasoNormal"]
-size = Vector3(10, 0.55, 1.2)
+size = Vector3(10, 2.2, 1.2)
 
 [sub_resource type="BoxShape3D" id="Shape_PasoNormal"]
-size = Vector3(10, 0.55, 1.2)
+size = Vector3(10, 2.2, 1.2)
 
 [sub_resource type="BoxMesh" id="Mesh_CajaNormal"]
 size = Vector3(1.25, 1.25, 1.25)
@@ -156,6 +175,24 @@ size = Vector3(10, 0.6, 4)
 
 [sub_resource type="BoxShape3D" id="Shape_SalidaElevada"]
 size = Vector3(10, 0.6, 4)
+
+[sub_resource type="BoxMesh" id="Mesh_ParedSalida_Izq"]
+size = Vector3(2.5, 4.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_ParedSalida_Izq"]
+size = Vector3(2.5, 4.5, 0.3)
+
+[sub_resource type="BoxMesh" id="Mesh_ParedSalida_Der"]
+size = Vector3(2.5, 4.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_ParedSalida_Der"]
+size = Vector3(2.5, 4.5, 0.3)
+
+[sub_resource type="BoxMesh" id="Mesh_ParedSalida_Techo"]
+size = Vector3(5.0, 2.3, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_ParedSalida_Techo"]
+size = Vector3(5.0, 2.3, 0.3)
 
 [sub_resource type="BoxMesh" id="Mesh_IslaC"]
 size = Vector3(8, 0.6, 5)
@@ -311,7 +348,7 @@ material_override = SubResource("Mat_wall")
 shape = SubResource("Shape_ParedDer_8_22")
 
 [node name="PasoNormal" type="StaticBody3D" parent="."]
-position = Vector3(0, 4.025, -12)
+position = Vector3(0, 4.85, -12)
 
 [node name="Malla" type="MeshInstance3D" parent="PasoNormal"]
 mesh = SubResource("Mesh_PasoNormal")
@@ -377,6 +414,36 @@ material_override = SubResource("Mat_floor")
 
 [node name="Colision" type="CollisionShape3D" parent="SalidaElevada"]
 shape = SubResource("Shape_SalidaElevada")
+
+[node name="ParedSalida_Izq" type="StaticBody3D" parent="."]
+position = Vector3(-3.75, 7.35, -18.2)
+
+[node name="Malla" type="MeshInstance3D" parent="ParedSalida_Izq"]
+mesh = SubResource("Mesh_ParedSalida_Izq")
+material_override = SubResource("Mat_wall")
+
+[node name="Colision" type="CollisionShape3D" parent="ParedSalida_Izq"]
+shape = SubResource("Shape_ParedSalida_Izq")
+
+[node name="ParedSalida_Der" type="StaticBody3D" parent="."]
+position = Vector3(3.75, 7.35, -18.2)
+
+[node name="Malla" type="MeshInstance3D" parent="ParedSalida_Der"]
+mesh = SubResource("Mesh_ParedSalida_Der")
+material_override = SubResource("Mat_wall")
+
+[node name="Colision" type="CollisionShape3D" parent="ParedSalida_Der"]
+shape = SubResource("Shape_ParedSalida_Der")
+
+[node name="ParedSalida_Techo" type="StaticBody3D" parent="."]
+position = Vector3(0, 8.45, -18.2)
+
+[node name="Malla" type="MeshInstance3D" parent="ParedSalida_Techo"]
+mesh = SubResource("Mesh_ParedSalida_Techo")
+material_override = SubResource("Mat_wall")
+
+[node name="Colision" type="CollisionShape3D" parent="ParedSalida_Techo"]
+shape = SubResource("Shape_ParedSalida_Techo")
 
 [node name="IslaC" type="StaticBody3D" parent="."]
 position = Vector3(0, 4.8, -25.5)
