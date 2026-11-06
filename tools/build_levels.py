@@ -56,9 +56,10 @@ class Level:
         self.block('TechoTunel', (0, 3.575, z), (2, 4.85, 1.6), 'barrier')
 
     def walls(self, start, end, width=10, base=0):
-        for x, name in [(-width / 2 - 0.25, 'ParedIzq'), (width / 2 + 0.25, 'ParedDer')]:
+        tag = f'{abs(int(start))}_{abs(int(end))}'
+        for x, name in [(-width / 2 - 0.25, f'ParedIzq_{tag}'), (width / 2 + 0.25, f'ParedDer_{tag}')]:
             self.block(name, (x, base + 3, (start + end) / 2), (0.5, 6, start - end), 'wall')
-        self.block('ParedFinal', (0, base + 3, end - 0.25), (width + 1, 6, 0.5), 'wall')
+        self.block(f'ParedFinal_{tag}', (0, base + 3, end - 0.25), (width + 1, 6, 0.5), 'wall')
 
     def goal(self, x, z, top):
         self.nodes.append(
@@ -127,6 +128,10 @@ def build():
     level = Level()
     level.block('Lava', (0, -2.5, -12), (22, 1, 48), 'lava')
     level.platform('IslaA', 0, 2, 10, 12)
+    # Paredes laterales de IslaA para impedir saltar por el costado del tunel
+    for x, name in [(-5.25, 'ParedIslaA_Izq'), (5.25, 'ParedIslaA_Der')]:
+        level.block(name, (x, 3, 2), (0.5, 6, 12), 'wall')
+    level.block('ParedIslaA_Fondo', (0, 3, 8.25), (11, 6, 0.5), 'wall')
     level.tunnel(3)
     level.box('CajaPequena', 2, 6, 0.5)
     level.box('CajaGrande', 2, -1, 2)
@@ -134,7 +139,7 @@ def build():
     level.platform('IslaB', 0, -15, 10, 14, 1.7)
     level.walls(-8, -22, base=1.7)
     # Abrir el extremo del corredor para saltar desde la salida a la isla C.
-    level.nodes = [node for node in level.nodes if 'name="ParedFinal"' not in node and 'parent="ParedFinal"' not in node]
+    level.nodes = [node for node in level.nodes if 'ParedFinal' not in node]
     size_puzzle(level, -12, 1.7, with_goal=False)
     # Salida: borde -21; isla final: borde -23. Salto de 2 unidades, mismo nivel.
     level.platform('IslaC', 0, -25.5, 8, 5, 5.1)

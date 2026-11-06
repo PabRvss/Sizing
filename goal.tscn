@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://goal.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/textures/meta_checker.png" id="2_checker"]
 
 [sub_resource type="BoxShape3D" id="AreaShape"]
 size = Vector3(3, 1.5, 2)
@@ -11,9 +12,10 @@ size = Vector3(3, 0.05, 2)
 [sub_resource type="BoxMesh" id="PadMesh"]
 size = Vector3(3, 0.05, 2)
 
-[sub_resource type="StandardMaterial3D" id="Green"]
-albedo_color = Color(0.24, 0.8, 0.59, 1)
-roughness = 0.8
+[sub_resource type="StandardMaterial3D" id="Mat_Cuadricula"]
+albedo_texture = ExtResource("2_checker")
+roughness = 0.5
+texture_filter = 0
 
 [node name="Meta" type="Area3D"]
 collision_layer = 0
@@ -29,7 +31,7 @@ position = Vector3(0, 0.025, 0)
 
 [node name="Malla" type="MeshInstance3D" parent="Placa"]
 mesh = SubResource("PadMesh")
-material_override = SubResource("Green")
+material_override = SubResource("Mat_Cuadricula")
 
 [node name="Colision" type="CollisionShape3D" parent="Placa"]
 shape = SubResource("PadShape")

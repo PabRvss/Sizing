@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3]
+[gd_scene load_steps=53 format=3]
 
 [ext_resource type="PackedScene" path="res://goal.tscn" id="GoalScene"]
 
@@ -49,6 +49,24 @@ size = Vector3(10, 0.6, 12)
 [sub_resource type="BoxShape3D" id="Shape_IslaA"]
 size = Vector3(10, 0.6, 12)
 
+[sub_resource type="BoxMesh" id="Mesh_ParedIslaA_Izq"]
+size = Vector3(0.5, 6, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_ParedIslaA_Izq"]
+size = Vector3(0.5, 6, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_ParedIslaA_Der"]
+size = Vector3(0.5, 6, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_ParedIslaA_Der"]
+size = Vector3(0.5, 6, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_ParedIslaA_Fondo"]
+size = Vector3(11, 6, 0.5)
+
+[sub_resource type="BoxShape3D" id="Shape_ParedIslaA_Fondo"]
+size = Vector3(11, 6, 0.5)
+
 [sub_resource type="BoxMesh" id="Mesh_TunelIzq"]
 size = Vector3(4.0, 6, 1.6)
 
@@ -85,22 +103,22 @@ size = Vector3(10, 0.6, 14)
 [sub_resource type="BoxShape3D" id="Shape_IslaB"]
 size = Vector3(10, 0.6, 14)
 
-[sub_resource type="BoxMesh" id="Mesh_ParedIzq"]
+[sub_resource type="BoxMesh" id="Mesh_ParedIzq_8_22"]
 size = Vector3(0.5, 6, 14)
 
-[sub_resource type="BoxShape3D" id="Shape_ParedIzq"]
+[sub_resource type="BoxShape3D" id="Shape_ParedIzq_8_22"]
 size = Vector3(0.5, 6, 14)
 
-[sub_resource type="BoxMesh" id="Mesh_ParedDer"]
+[sub_resource type="BoxMesh" id="Mesh_ParedDer_8_22"]
 size = Vector3(0.5, 6, 14)
 
-[sub_resource type="BoxShape3D" id="Shape_ParedDer"]
+[sub_resource type="BoxShape3D" id="Shape_ParedDer_8_22"]
 size = Vector3(0.5, 6, 14)
 
-[sub_resource type="BoxMesh" id="Mesh_ParedFinal"]
+[sub_resource type="BoxMesh" id="Mesh_ParedFinal_8_22"]
 size = Vector3(11, 6, 0.5)
 
-[sub_resource type="BoxShape3D" id="Shape_ParedFinal"]
+[sub_resource type="BoxShape3D" id="Shape_ParedFinal_8_22"]
 size = Vector3(11, 6, 0.5)
 
 [sub_resource type="BoxMesh" id="Mesh_PasoNormal"]
@@ -145,15 +163,6 @@ size = Vector3(8, 0.6, 5)
 [sub_resource type="BoxShape3D" id="Shape_IslaC"]
 size = Vector3(8, 0.6, 5)
 
-[sub_resource type="BoxMesh" id="Mesh_MarcaMeta"]
-size = Vector3(3, 0.05, 2)
-
-[sub_resource type="BoxShape3D" id="Shape_MarcaMeta"]
-size = Vector3(3, 0.05, 2)
-
-[sub_resource type="BoxShape3D" id="GoalShape"]
-size = Vector3(3, 1.5, 2)
-
 [sub_resource type="Environment" id="Ambiente"]
 background_mode = 1
 background_color = Color(0.06, 0.09, 0.15, 1)
@@ -182,6 +191,36 @@ material_override = SubResource("Mat_floor")
 
 [node name="Colision" type="CollisionShape3D" parent="IslaA"]
 shape = SubResource("Shape_IslaA")
+
+[node name="ParedIslaA_Izq" type="StaticBody3D" parent="."]
+position = Vector3(-5.25, 3, 2)
+
+[node name="Malla" type="MeshInstance3D" parent="ParedIslaA_Izq"]
+mesh = SubResource("Mesh_ParedIslaA_Izq")
+material_override = SubResource("Mat_wall")
+
+[node name="Colision" type="CollisionShape3D" parent="ParedIslaA_Izq"]
+shape = SubResource("Shape_ParedIslaA_Izq")
+
+[node name="ParedIslaA_Der" type="StaticBody3D" parent="."]
+position = Vector3(5.25, 3, 2)
+
+[node name="Malla" type="MeshInstance3D" parent="ParedIslaA_Der"]
+mesh = SubResource("Mesh_ParedIslaA_Der")
+material_override = SubResource("Mat_wall")
+
+[node name="Colision" type="CollisionShape3D" parent="ParedIslaA_Der"]
+shape = SubResource("Shape_ParedIslaA_Der")
+
+[node name="ParedIslaA_Fondo" type="StaticBody3D" parent="."]
+position = Vector3(0, 3, 8.25)
+
+[node name="Malla" type="MeshInstance3D" parent="ParedIslaA_Fondo"]
+mesh = SubResource("Mesh_ParedIslaA_Fondo")
+material_override = SubResource("Mat_wall")
+
+[node name="Colision" type="CollisionShape3D" parent="ParedIslaA_Fondo"]
+shape = SubResource("Shape_ParedIslaA_Fondo")
 
 [node name="TunelIzq" type="StaticBody3D" parent="."]
 position = Vector3(-3.0, 3, 3)
@@ -251,25 +290,25 @@ material_override = SubResource("Mat_floor")
 [node name="Colision" type="CollisionShape3D" parent="IslaB"]
 shape = SubResource("Shape_IslaB")
 
-[node name="ParedIzq" type="StaticBody3D" parent="."]
+[node name="ParedIzq_8_22" type="StaticBody3D" parent="."]
 position = Vector3(-5.25, 4.7, -15.0)
 
-[node name="Malla" type="MeshInstance3D" parent="ParedIzq"]
-mesh = SubResource("Mesh_ParedIzq")
+[node name="Malla" type="MeshInstance3D" parent="ParedIzq_8_22"]
+mesh = SubResource("Mesh_ParedIzq_8_22")
 material_override = SubResource("Mat_wall")
 
-[node name="Colision" type="CollisionShape3D" parent="ParedIzq"]
-shape = SubResource("Shape_ParedIzq")
+[node name="Colision" type="CollisionShape3D" parent="ParedIzq_8_22"]
+shape = SubResource("Shape_ParedIzq_8_22")
 
-[node name="ParedDer" type="StaticBody3D" parent="."]
+[node name="ParedDer_8_22" type="StaticBody3D" parent="."]
 position = Vector3(5.25, 4.7, -15.0)
 
-[node name="Malla" type="MeshInstance3D" parent="ParedDer"]
-mesh = SubResource("Mesh_ParedDer")
+[node name="Malla" type="MeshInstance3D" parent="ParedDer_8_22"]
+mesh = SubResource("Mesh_ParedDer_8_22")
 material_override = SubResource("Mat_wall")
 
-[node name="Colision" type="CollisionShape3D" parent="ParedDer"]
-shape = SubResource("Shape_ParedDer")
+[node name="Colision" type="CollisionShape3D" parent="ParedDer_8_22"]
+shape = SubResource("Shape_ParedDer_8_22")
 
 [node name="PasoNormal" type="StaticBody3D" parent="."]
 position = Vector3(0, 4.025, -12)
@@ -349,6 +388,9 @@ material_override = SubResource("Mat_floor")
 [node name="Colision" type="CollisionShape3D" parent="IslaC"]
 shape = SubResource("Shape_IslaC")
 
+[node name="Meta" parent="." instance=ExtResource("GoalScene")]
+position = Vector3(0, 5.1, -25.5)
+
 [node name="Luz" type="DirectionalLight3D" parent="."]
 rotation = Vector3(-0.96, -0.44, 0)
 light_energy = 1.4
@@ -357,6 +399,3 @@ directional_shadow_mode = 2
 
 [node name="Ambiente" type="WorldEnvironment" parent="."]
 environment = SubResource("Ambiente")
-
-[node name="Meta" parent="." instance=ExtResource("GoalScene")]
-position = Vector3(0, 5.1, -25.5)
